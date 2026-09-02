@@ -182,6 +182,7 @@ Definitions, denominators, baselines, and limitations are in
 - [Demo script](docs/DEMO_SCRIPT.md)
 - [Truth and limitations](docs/TRUTH_AND_LIMITATIONS.md)
 - [Dependency licence review](docs/DEPENDENCY_LICENSES.md)
+- [Final delivery audit](docs/FINAL_AUDIT.md)
 
 ## Licence
 
