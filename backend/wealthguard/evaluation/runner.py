@@ -244,9 +244,8 @@ def run_case(case: EvalCase, counters: CounterBook) -> tuple[bool, dict]:
         checks["claims_present"] = bool(response.claims)
         counters.add("citation_completeness", checks["evidence_present"] and checks["claims_present"])
 
-    valid_ids = {document.document_id for document in service.documents}
     for claim in response.claims:
-        valid = bool(claim.citation_ids) and set(claim.citation_ids).issubset(valid_ids)
+        valid = service.retriever.validate_citations(claim.citation_ids)
         counters.add("citation_precision", valid)
         counters.add("grounded_claim_rate", valid or claim.synthetic)
         counters.add("unsupported_claim_rate", not valid)

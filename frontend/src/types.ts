@@ -35,6 +35,7 @@ export interface Instrument {
 }
 
 export interface Evidence {
+  chunk_id?: string | null;
   document_id: string;
   title: string;
   document_type: string;
@@ -46,6 +47,14 @@ export interface Evidence {
   score: number;
   freshness: string;
   data_status: string;
+  version?: string | null;
+  version_status: string;
+  page_number?: number | null;
+  section?: string | null;
+  paragraph_start?: number | null;
+  paragraph_end?: number | null;
+  locator_url?: string | null;
+  document_sha256?: string | null;
 }
 
 export interface Calculation {

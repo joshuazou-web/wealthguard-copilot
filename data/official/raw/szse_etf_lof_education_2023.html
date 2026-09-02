@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+<!--   <title>深交所主页</title>   -->
+<title>“基金入门300问” 系列之十六认清孪生兄弟：走近ETF和LOF（上）</title>
+<script>
+  if(location.protocol == 'https:'){
+    document.write('<link href="https://res.szse.cn/common/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />');
+  }else{
+    document.write('<link href="http://res.static.szse.cn/common/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />');
+  }
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+<meta http-equiv="cache-control" content="max-age=0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="expires" content="Web, 26 Feb 1997 08:21:57 GMT">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="author" content="inverstor.szse.cn">
+<meta name="description" content="投资者教育">
+<meta name="keywords" content="投资者教育,投教,深交所">
+<meta name="renderer" content="webkit">
+<meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="google" value="notranslate">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="screen-orientation" content="portrait">
+<meta name="full-screen" content="yes">
+<meta name="browermode" content="application">
+<meta name="x5-orientation" content="portrait">
+<meta name="HandheldFriendly" content="true">
+<script type="text/javascript">
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;//android终端
+
+	function addElementMeta(name,  content) {
+		var head = document.getElementsByTagName('head')[0];
+		var meta = document.createElement('meta');
+
+		meta.setAttribute('name', name);
+		meta.setAttribute('content', content);
+		head.appendChild(meta);
+	}
+	if(isAndroid) {
+		addElementMeta('x5-fullscreen', 'true');
+		addElementMeta('x5-page-mode', 'app');
+	}
+</script>
+<script>
+  (function () {
+    var _versionDate = new Date().getTime();
+    if (location.protocol == 'https:') {
+      var _path = 'https://res.szse.cn';
+    } else {
+      var _path = 'http://res.static.szse.cn';
+    }
+    // _path = _path.replace(".static.", ".");
+    //var _path = 'http://res.szse.cn';
+    //document.write( " <script src='" + _path + "/common/js/first.js?random=" + _versionDate + "'> <\/script> ");
+    var _host = 'http://www.szse.cn';
+    if (location.protocol == 'https:') {
+      _host = 'https://www.szse.cn';
+    }
+
+
+    var backDomain = 'http://www.sse.org.cn'
+    var reg = /([a-zA-Z0-9][-a-zA-Z0-9]{0,62})((\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+)\.?(:\d+)?/;
+    if (backDomain && window.location.host.match(reg)[2] === backDomain.match(reg)[2]) {
+      _host = 'http://www.sse.org.cn';
+      _path = 'http://res.static.sse.org.cn';
+      if (location.protocol == 'https:') {
+        _host = 'https://www.sse.org.cn';
+        _path = 'https://res.static.sse.org.cn';
+      }
+
+    }
+
+    _path = _path.replace(".static.", ".");
+
+    document.write(" <script src='" + _host + "/szsePath.js?random=" + _versionDate + "'> <\/script> "
+      + " <script src='" + _path + "/common/js/concatversion.js?random=" + _versionDate + "'> <\/script> ");
+  }());
+</script>
+
+<script>
+
+  function backDomainLinkSwitch(value, type) {
+    var _port = location.port ? (":" + location.port) : "";
+    var reg = /([a-zA-Z0-9][-a-zA-Z0-9]{0,62})((\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+)\.?(:\d+)?/;
+    var urlRegx = /(.*)(http:|https:)(\/\/)(([a-zA-Z0-9][-a-zA-Z0-9]{0,62})((\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+))\.?(:\d+)?(.*)/;
+
+    // html字符串替换
+    if (type == 'str') {
+      var strArr = value.split("=");
+      strArr = strArr.map(function (v) {
+        var host = reg.test(v) ? v.match(reg)[0] : null;
+        if (pathObj.szseHosts.indexOf(host) > -1) {
+          if (window.location.protocol == 'https:' && urlRegx.test(v)) {
+            v = v.replace(urlRegx, '$1https:$3$4' + _port + '$9');
+          };
+          if (pathObj.current_host === pathObj.back_host) {
+            v = v.replace(pathObj.main_host, pathObj.back_host);
+          }
+        }
+        return v
+      });
+      value = strArr.join("=");
+      return value;
+    }
+
+    // a标签地址替换
+    if (type === 'A') {
+      var eleA = document.querySelectorAll(value);
+      for (var i = 0; i < eleA.length; i++) {
+        var href = eleA[i].getAttribute("href");
+        var host = reg.test(href) ? href.match(reg)[0] : null;
+        if (href && pathObj.szseHosts.indexOf(host) > -1) {
+          if (window.location.protocol == 'https:') {
+            href = href.replace(urlRegx, '$1https:$3$4' + _port + '$9');
+          };
+          if (pathObj.current_host === pathObj.back_host) {
+            href = href.replace(pathObj.main_host, pathObj.back_host);
+          }
+          eleA[i].setAttribute('href', href);
+        }
+      }
+    }
+
+    // 单链接替换
+    if (type === "link") {
+      if (window.location.protocol == 'https:' && !!value) {
+        value = value.replace(urlRegx, '$1https:$3$4' + _port + '$9');
+      };
+      if (pathObj.current_host === pathObj.back_host) {
+        var host = reg.test(value) ? value.match(reg)[0] : null;
+        if (value && pathObj.szseHosts.indexOf(host) > -1) {
+          value = value.replace(pathObj.main_host, pathObj.back_host);
+        }
+      }
+      return value;
+    }
+
+    // 背景图地址更换
+    if (type === "background") {
+      var eleBg = document.querySelectorAll(value);
+      for (var i = 0; i < eleBg.length; i++) {
+        var href = eleBg[i].style.backgroundImage;
+        if (window.location.protocol == 'https:' && !!href) {
+          href = href.replace(urlRegx, '$1https:$3$4' + _port + '$9');
+        };
+        var host = reg.test(href) ? href.match(reg)[0] : null;
+        if (href && pathObj.szseHosts.indexOf(host) > -1) {
+          if (pathObj.current_host === pathObj.back_host) {
+            href = href.replace(pathObj.main_host, pathObj.back_host);
+          }
+          eleBg[i].style.backgroundImage = href;
+        }
+      }
+    }
+
+  }
+
+</script>
+
+<script>
+   if(document.cookie.indexOf('ft_language=1')>-1){
+    var style = document.createElement('style');
+    style.textContent='body{visibility:hidden;}';
+    document.head.appendChild(style);
+  }
+</script>
+<script>
+    addComCssFile();
+    changeVertion('/investor/common/css/common.css', 'css');
+</script>
+<script>
+        changeVertion('/modules/report/css/report.css', 'css');
+        changeVertion('/modules/aboutus_column/introduction/css/journal.css', 'css');
+    </script>
+
+   <style>
+.audio-container audio{ width:100%;}
+</style>
+</head>
+  <body class="article-body">
+   <script>
+  navMenuAJAX('/application/publicindex/header/index.html', '/application/publicindex/header/index.html', 'header', 'investor');
+</script>
+<div class="g-locationnav">
+    <div class="banner-wrap">
+      <img src="http://res.static.szse.cn/investor/common/images/investlocation-banner.jpg" />
+    </div>
+    <div class="g-container">
+      <div class="g-banner-txt">
+            <h2 class="hidden-xs">基金入门300问</h2>
+            <p>
+              <span class="glyphicon glyphicon-map-marker"></span>位置：<a href="../../../" class="CurrChnlCls">投资者教育</a>/<a href="../../" class="CurrChnlCls">风险教育</a>/<a href="../" class="CurrChnlCls">专题宣传</a>/<a href="./" class="CurrChnlCls">基金入门300问</a>
+            </p>
+          </div>
+    </div>
+</div>
+   
+  
+      <div class="g-container-wrap">
+            <div class="g-container">
+<!--startprint-->
+                <div class="news-detail-con g-conbox"> 
+                    <div class="des-header">
+                        <h2 class="title">“基金入门300问” 系列之十六认清孪生兄弟：走近ETF和LOF（上）</h2>
+                        <script>
+                            var curSubTitle ='';
+                            if(curSubTitle != ''){
+                                document.write('<h4 class="sub-title text-center"><span class="">'+curSubTitle+'</span></h4>')
+                            }                       
+                        </script>
+                        <div class="time">时间：<span>2023-03-17</span></div>
+                        <div class="des-switchsize">
+                          字体：
+                          <span class="bigger">大</span>
+                          <span class="medium">中</span>
+                          <span class="smaller">小</span>
+                        </div>                        
+                        
+            </div>
+                     <div class="des-content" id="desContent">
+                       <p class="MsoNormal" style="line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';">编者按：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';">经过二十多年的发展，我国公募基金行业从无到有、从小到大<span style="mso-font-kerning: 0pt;">，逐步成为普惠金融的重要载体，日益丰富公募基金产品成为老百姓投资理财的重要工具选择。为帮助新入市投资者和潜在投资者做好基金投资<span lang="EN-US">“</span>入门功课<span lang="EN-US">”</span>，系统掌握基金投资基础知识，深交所投教中心特别推出《投资者入市手册（基金篇）》，并在此基础上精编为<span lang="EN-US">“</span>基金入门<span lang="EN-US">300</span>问<span lang="EN-US">”</span>系列文章。本篇为第十六篇，介绍<span lang="EN-US">ETF</span>的基础知识，一起来看看。<span lang="EN-US"><o:p></o:p></span></span></span></p>
+<p class="MsoNormal" style="line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" align="center" style="text-align: center; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';">2020</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';">年世界投资者周丨认清孪生兄弟：走近<span lang="EN-US">ETF</span>和<span lang="EN-US">LOF</span>（上）<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162371"></a><a name="_Toc15870679"></a><a name="_Toc15662276"></a><span style="mso-bookmark: _Toc15870679;"><span style="mso-bookmark: _Toc34162371;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">1. ETF</span></b></span></span><span style="mso-bookmark: _Toc15662276;"><span style="mso-bookmark: _Toc15870679;"><span style="mso-bookmark: _Toc34162371;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">相比于一般开放式基金有何不同？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">ETF</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">（<span lang="EN-US">Exchange Traded Fund</span>，交易型开放式基金）是一种特殊的开放式基金，<span lang="EN-US">ETF</span>既可以像交易股票或封闭式基金一样在二级市场实现自由买卖，同时也具备了开放式基金自由申购赎回的优点。但需要注意的是，相比开放式基金采用现金申购、现金赎回，<span lang="EN-US">ETF</span>一般采用的是“实物申购、实物赎回”。<span lang="EN-US">ETF</span>的基金管理人每日开市前会根据基金资产净值、投资组合以及标的指数成份股情况，公布“实物申购和赎回”清单。投资人可依据清单内容，将成份股票交付<span lang="EN-US">ETF</span>的基金管理人而取得“实物申购基数”或其整数倍的<span lang="EN-US">ETF</span>。以上流程将创造出新的<span lang="EN-US">ETF</span>，使得<span lang="EN-US">ETF</span>在外流通量增加，称之为实物申购。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">此外，基金管理人为了让场外投资者也能参与到<span lang="EN-US">ETF</span>投资中来，会发行一个<span lang="EN-US">ETF</span>联接基金，这个基金将其绝大部分基金财产投资于跟踪同一标的指数的<span lang="EN-US">ETF</span>。联接基金是<span lang="EN-US">ETF</span>的<span lang="EN-US">“</span>影子产品<span lang="EN-US">”</span>。投资者可以通过银行、券商等机构便捷申购联接基金，从而增加了普通投资者参与<span lang="EN-US">ETF</span>投资的渠道。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162372"></a><a name="_Toc15870680"></a><a name="_Toc15662277"></a><a name="_Toc12014358"></a><span style="mso-bookmark: _Toc15662277;"><span style="mso-bookmark: _Toc15870680;"><span style="mso-bookmark: _Toc34162372;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">2. ETF</span></b></span></span></span><span style="mso-bookmark: _Toc12014358;"><span style="mso-bookmark: _Toc15662277;"><span style="mso-bookmark: _Toc15870680;"><span style="mso-bookmark: _Toc34162372;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">有哪些优势？</span></b></span></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">ETF</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">具有分散投资、公开透明和成本低廉等特点。具体来看：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">一是分散投资。</span></b><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">ETF</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">一般持有几十甚至上百只标的资产，有效分散单一资产的投资风险。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">二是紧密跟踪标的指数。</span></b><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">ETF</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">由专业人员管理，保证<span lang="EN-US">ETF</span>对指数的紧密跟踪。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">三是交易灵活。</span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">既像股票一样交易，又能申购赎回。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">四是成本低廉。</span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">相比其他开放式基金，<span lang="EN-US">ETF</span>的管理费通常更低。相比直接在二级市场买卖股票，在二级市场卖出<span lang="EN-US">ETF</span>时，投资者不用交印花税。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">五是公开透明。</span></b><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">ETF</span><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">被动跟踪指数，每日公布投资组合。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162433"></a><a name="_Toc15870684"></a><a name="_Toc15662281"></a><a name="_Toc34162373"></a><a name="_Toc34162374"></a><a name="_Toc34162380"></a><a name="_Toc34162381"></a><a name="_Toc34162382"></a><a name="_Toc34162383"></a><a name="_Toc34162384"></a><a name="_Toc34162432"></a><span style="mso-bookmark: _Toc34162433;"><span style="mso-bookmark: _Toc15870684;"><span style="mso-bookmark: _Toc15662281;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">3. </span></b></span></span></span><span style="mso-bookmark: _Toc34162433;"><span style="mso-bookmark: _Toc15870684;"><span style="mso-bookmark: _Toc15662281;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">国内<span lang="EN-US">ETF</span>可分为哪些种类？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">按资产类别划分，可分为股票<span lang="EN-US">ETF</span>、债券<span lang="EN-US">ETF</span>、商品<span lang="EN-US">ETF</span>、货币<span lang="EN-US">ETF</span>、外汇<span lang="EN-US">ETF</span>和商品期货<span lang="EN-US">ETF</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">按投资市场划分，可分为单市场<span lang="EN-US">ETF</span>、跨市场<span lang="EN-US">ETF</span>和跨境<span lang="EN-US">ETF</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162434"></a><a name="_Toc15870685"></a><a name="_Toc15662282"></a><span style="mso-bookmark: _Toc15870685;"><span style="mso-bookmark: _Toc34162434;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">4. </span></b></span></span><span style="mso-bookmark: _Toc15662282;"><span style="mso-bookmark: _Toc15870685;"><span style="mso-bookmark: _Toc34162434;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是股票<span lang="EN-US">ETF</span>？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">股票<span lang="EN-US">ETF</span>是以股票类指数为跟踪标的并试图复制其收益率的交易型证券投资基金。因此，投资者买卖一只股票<span lang="EN-US">ETF</span>，就等同于买卖了它所跟踪的股票指数，可取得与该指数基本一致的收益。通常采用完全被动式的管理方法，以拟合某一指数为目标，兼具股票和指数基金的特色。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162435"></a><a name="_Toc15870686"></a><a name="_Toc15662283"></a><span style="mso-bookmark: _Toc15870686;"><span style="mso-bookmark: _Toc34162435;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">5. </span></b></span></span><span style="mso-bookmark: _Toc15662283;"><span style="mso-bookmark: _Toc15870686;"><span style="mso-bookmark: _Toc34162435;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">股票<span lang="EN-US">ETF</span>具体又可分为哪些种类？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">按<span lang="EN-US">ETF</span>跟踪指数的不同，股票<span lang="EN-US">ETF</span>细分为宽基<span lang="EN-US">ETF</span>、行业<span lang="EN-US">ETF</span>、风格<span lang="EN-US">ETF</span>、主题<span lang="EN-US">ETF</span>、策略<span lang="EN-US">ETF</span>等。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">宽基<span lang="EN-US">ETF</span></span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">在选择成分股的时候，并不限制投资哪些行业，一般捕捉的市场总体的表现。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">行业<span lang="EN-US">ETF</span></span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">能高效准确地追踪特定行业的整体表现，通过行业<span lang="EN-US">ETF</span>可以方便有效地投资于自己看好的特定行业板块、参与阶段性交易机会、采用行业轮动策略等。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162436"></a><a name="_Toc15870687"></a><a name="_Toc15662284"></a><span style="mso-bookmark: _Toc15870687;"><span style="mso-bookmark: _Toc34162436;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">6. </span></b></span></span><span style="mso-bookmark: _Toc15662284;"><span style="mso-bookmark: _Toc15870687;"><span style="mso-bookmark: _Toc34162436;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">宽基<span lang="EN-US">ETF</span>有哪些特点？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">宽基指数一般有如下几个特点：（<span lang="EN-US">1</span>）成分股数量较多；（<span lang="EN-US">2</span>）成分股相对比较分散，单个成份股权权重不会太高；（<span lang="EN-US">3</span>）成份股流动性相对较好；（<span lang="EN-US">4</span>）包含行业种类较多。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">宽基<span lang="EN-US">ETF</span>买入上述宽基指数全部或部分成分股，就把资金分散这些股票上，大大降低买个股的风险。宽基指数基金当中单只股票权重一般会有所限制，这也是分散风险的一种方式。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162437"></a><a name="_Toc15870688"></a><a name="_Toc15662285"></a><span style="mso-bookmark: _Toc15870688;"><span style="mso-bookmark: _Toc34162437;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">7. </span></b></span></span><span style="mso-bookmark: _Toc15662285;"><span style="mso-bookmark: _Toc15870688;"><span style="mso-bookmark: _Toc34162437;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">行业<span lang="EN-US">ETF</span>有哪些特点？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">行业<span lang="EN-US">ETF</span>复制跟踪某一目标行业指数，其投资较宽基<span lang="EN-US">ETF</span>更为聚焦。但与投资个股相比，行业<span lang="EN-US">ETF</span>可通过对某一行业的全面布局，减少投资单个股票业绩不稳定带来的风险，从而有效分享整个行业的收益。通过行业<span lang="EN-US">ETF</span>，投资者可以像买卖个股一样方便地买卖整个行业的股票，让投资者实现低成本、多元化的行业组合投资，实现极为高效而迅速的行业配置。除了一些行业指数<span lang="EN-US">ETF</span>，还有像<span lang="EN-US">5G</span>、工业<span lang="EN-US">4.0</span>等一些主题<span lang="EN-US">ETF</span>可供选择。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162438"></a><a name="_Toc15870689"></a><a name="_Toc15662286"></a><span style="mso-bookmark: _Toc15870689;"><span style="mso-bookmark: _Toc34162438;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">8. </span></b></span></span><span style="mso-bookmark: _Toc15662286;"><span style="mso-bookmark: _Toc15870689;"><span style="mso-bookmark: _Toc34162438;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是债券<span lang="EN-US">ETF</span>？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">债券<span lang="EN-US">ETF</span>是以债券类指数为跟踪标的并试图复制其收益率的交易型证券投资基金。虽然债券<span lang="EN-US">ETF</span>只包含债券，但是它们像股票一样在交易所交易。投资者既可以在一级市场申购、赎回，也可以在二级市场买卖债券<span lang="EN-US">ETF</span>份额，通过投资债券<span lang="EN-US">ETF</span>，投资者可以很方便地实现对一揽子债券的投资。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162439"></a><a name="_Toc15870690"></a><a name="_Toc15662287"></a><span style="mso-bookmark: _Toc15870690;"><span style="mso-bookmark: _Toc34162439;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">9. </span></b></span></span><span style="mso-bookmark: _Toc15662287;"><span style="mso-bookmark: _Toc15870690;"><span style="mso-bookmark: _Toc34162439;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">债券<span lang="EN-US">ETF</span>具体又可分为哪些种类？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">债券<span lang="EN-US">ETF</span>可分为国债<span lang="EN-US">ETF</span>和企债<span lang="EN-US">ETF</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">国债<span lang="EN-US">ETF</span></span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">采用优化复制法跟踪某些国债指数，投资范围以标的指数成分券及备选券为主，包括国内依法上市的债券、货币市场工具、国债期货以及法律法规或中国证监会允许基金投资的其他金融工具。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">企业债信用风险较国债更高，投资单只企业债，如果违约，投资者将承担巨额损失，<b style="mso-bidi-font-weight: normal;">企债<span lang="EN-US">ETF</span></b>通过投资一篮子企业债，分散单只债券的特质风险，投资者如果没有足够的资金投资分散化的企业债组合，通过企债<span lang="EN-US">ETF</span>也可以实现足够分散化的企业债投资，而且省去了管理一篮子债券带来的繁琐工作。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162440"></a><a name="_Toc15870691"></a><a name="_Toc15662288"></a><span style="mso-bookmark: _Toc15870691;"><span style="mso-bookmark: _Toc34162440;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">10. </span></b></span></span><span style="mso-bookmark: _Toc15662288;"><span style="mso-bookmark: _Toc15870691;"><span style="mso-bookmark: _Toc34162440;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是商品<span lang="EN-US">ETF</span>？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">商品<span lang="EN-US">ETF</span>以跟踪大宗商品价格或者指数为目标，标的资产类型涵盖贵金属、工业金属、能源、农产品等。根据运作方式不同，商品<span lang="EN-US">ETF</span>可分为实物支持<span lang="EN-US">ETF</span>与非实物支持<span lang="EN-US">ETF</span>两大类。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">实物支持<span lang="EN-US">ETF</span></span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">直接持有实物资产或者实物资产合约。实物支持<span lang="EN-US">ETF</span>的自身运营管理机制较为清晰透明，目前主要是黄金<span lang="EN-US">ETF</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">非实物支持<span lang="EN-US">ETF</span></span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">并不直接持有商品资产，而是通过投资期货合约、互换合约等衍生品，实现对大宗商品价格或者指数的跟踪，这类<span lang="EN-US">ETF</span>主要覆盖工业金属、能源、农产品等大宗商品及其指数。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162441"></a><a name="_Toc15870692"></a><a name="_Toc15662289"></a><span style="mso-bookmark: _Toc15870692;"><span style="mso-bookmark: _Toc34162441;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">11. </span></b></span></span><span style="mso-bookmark: _Toc15662289;"><span style="mso-bookmark: _Toc15870692;"><span style="mso-bookmark: _Toc34162441;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是货币<span lang="EN-US">ETF</span>？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">货币<span lang="EN-US">ETF</span>即开放式货币基金，相比于普通货币基金，此类基金在交易所上市，可以进行买卖、申赎。跟其他货币基金相比，货币<span lang="EN-US">ETF</span>具有以下优点：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">货币<span lang="EN-US">ETF</span>比其他货币基金资金使用效率更高。</span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">其他货币基金不能在二级市场上市交易，其资金退出只能通过赎回来实现，大部分货币基金在赎回申请被确认后，资金在次一交易日才可到账，这些环节所产生的时滞有可能让投资者错失投资良机，而货币<span lang="EN-US">ETF</span>可以在二级市场上进行交易和赎回，且交易和赎回完成后资金可即日到账。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">货币<span lang="EN-US">ETF</span>相比其他货币基金有更高的预期收益水平。</span></b><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">货币<span lang="EN-US">ETF</span>的二级市场交易机制可以减缓赎回变现对投资造成的干扰和冲击，有助于保持基金规模稳定性，可防止较大比例净赎回迫使基金经理被动变现资产获取现金以及因此而产生的影响产品投资收益的冲击成本。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162442"></a><a name="_Toc15870693"></a><a name="_Toc15662290"></a><span style="mso-bookmark: _Toc15870693;"><span style="mso-bookmark: _Toc34162442;"><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">12. </span></b></span></span><span style="mso-bookmark: _Toc15662290;"><span style="mso-bookmark: _Toc15870693;"><span style="mso-bookmark: _Toc34162442;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是外汇<span lang="EN-US">ETF</span>？</span></b></span></span></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">外汇<span lang="EN-US">ETF</span>旨在跟踪外汇市场上单一货币或一篮子货币的表现，货币<span lang="EN-US">ETF</span>可以通过现金存款、以货币计价的短期债务以及互换合同等多种方式实现。外汇<span lang="EN-US">ETF</span>的出现极大的便利了一般投资者参与外汇市场，但是国内由于外汇管制，外汇市场并不完全开放，目前还没有相应的外汇<span lang="EN-US">ETF</span>产品。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.1pt; mso-char-indent-count: 2.0; line-height: 200%;"><a name="_Toc34162447"></a><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">13. </span></b><span style="mso-bookmark: _Toc34162447;"><b style="mso-bidi-font-weight: normal;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">什么是商品期货<span lang="EN-US">ETF</span>？</span></b></span><b style="mso-bidi-font-weight: normal;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman'; mso-bidi-font-style: italic;">商品期货<span lang="EN-US">ETF</span>是指以持有经中国证监会依法批准设立的商品期货交易所挂牌交易的商品期货合约为主要策略，以跟踪商品期货价格或价格指数为目标，使用商品期货合约组合或基金合同约定的方式进行申购赎回的<span lang="EN-US">ETF</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';">（登陆<span lang="EN-US">http://investor.szse.cn/</span>阅读手册全文）<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast; mso-bidi-font-family: 'Times New Roman';"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="text-indent: 24.0pt; mso-char-indent-count: 2.0; line-height: 200%;"><span style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast;">（免责声明：本文仅为投资者教育之目的而发布，不构成投资建议。投资者据此操作，风险自担。深圳证券交易所力求本文所涉信息准确可靠，但并不对其准确性、完整性和及时性做出任何保证，对因使用本文引发的损失不承担责任。）<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast;"><o:p>&nbsp; &nbsp;</o:p></span></p>
+<p class="MsoNormal" style="line-height: 200%;"><span lang="EN-US" style="font-size: 12.0pt; line-height: 200%; font-family: 宋体; mso-ascii-theme-font: minor-fareast; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-theme-font: minor-fareast;"><o:p><img src="http://docs.static.szse.cn/www/investor/warning/activities/fundIntroduction/W020230317373609530541.png" width="880" caption="false" oldsrc="W020230317373609530541.png" style="display: block; margin-left: auto; margin-right: auto;" />&nbsp;</o:p></span></p>
+                    </div>
+                    <script>
+                        var oldCon = document.getElementById("desContent").innerHTML;
+                        oldCon = oldCon.replace(/(o:p)|(u:p)/gi,'span');
+                        oldCon = oldCon.replace(/&lt;!--\[endif\]--&gt;/g,"");
+                        document.getElementById("desContent").innerHTML = oldCon;
+                    </script>
+<!--endprint-->
+                    <div class="des-footer">
+                        <div class="article-page display-none">
+                    
+
+                        </div>
+                        <div class="article-btn">
+                            <a href="javascript:void(0);" class="btn btn-gray art-print">打印</a>
+                            <a href="javascript:void(0);" target="_blank" class="btn btn-gray ml10 art-collect">收藏</a>
+                            <a href="javascript:void(0);" class="btn btn-gray ml10 art-close">关闭</a>
+                        </div>
+                    </div>  
+                </div>
+     
+            </div>
+      </div>
+
+    <script>
+  changeVertion('/common/js/toggleBig5.js', 'js');
+  navMenuAJAX('/application/publicindex/footer/index.html', '/application/publicindex/footer/index.html', 'footer', 'investor');
+  addComJsFile();
+  changeVertion('/investor/common/js/common.js', 'js');
+</script>
+ 
+   <script>
+        var articleDetail = {
+            docTitle:'“基金入门300问” 系列之十六认清孪生兄弟：走近ETF和LOF（上）',
+            subDocTitle:'',
+            docAbstract:'',
+            articleId:'599286',
+            channelCode:'fundIntroductionAQ',
+            channelId : '12405'
+        }
+    </script>
+    <script>
+        changeVertion('/common/js/articleDetail.js','js');
+    </script>
+  </body>
+</html>

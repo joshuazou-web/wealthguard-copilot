@@ -56,7 +56,9 @@ The running product was tested in headless Chrome at 1440×1000, 1366×768, and 
 
 ## Truth audit
 
-- Public material is labelled as a curated paraphrase with source and dates.
+- Default public material is retained as checksum-verified official PDF/HTML with source, version,
+  dates and page/paragraph locations; synthetic fixtures remain separately labelled.
+- The 39-case official citation traceability run passed 39/39 across 13 files.
 - Synthetic products, prices, exposures, profiles, portfolios, scenarios, and evaluations are
   labelled as synthetic.
 - The 126/126 result is presented only as fixed-taxonomy regression coverage with denominators and
@@ -71,4 +73,3 @@ The prototype remains offline, English-heavy, unauthenticated, process-local, an
 financial institution, legal team, regulator, or independent annotator. It has no live market data,
 brokerage connection, durable audit store, source-span ingestion pipeline, load/security test, or
 production deployment. These are declared product boundaries, not completed capabilities.
-

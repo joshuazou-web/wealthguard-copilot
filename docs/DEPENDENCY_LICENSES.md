@@ -10,6 +10,7 @@ Reviewed from the installed Python package metadata and `pnpm licenses list --js
 | FastAPI | 0.141.1 | MIT |
 | Uvicorn | 0.52.4 | BSD-3-Clause |
 | Pydantic | 2.13.5 | MIT |
+| pypdf | 6.16.2 | BSD-3-Clause |
 | HTTPX (development) | 0.28.1 | BSD-3-Clause |
 | pytest (development) | 8.4.2 | MIT |
 | pytest-cov (development) | 6.3.0 | MIT |
@@ -30,4 +31,3 @@ codebase. Any future source-level reuse must preserve the relevant licence and a
 
 Before redistribution, re-run the inventory against the locked environment and review source/data
 terms separately from software package licences.
-

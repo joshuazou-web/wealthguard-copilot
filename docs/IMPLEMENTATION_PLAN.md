@@ -32,7 +32,7 @@ slate optimization, and template-specific parsing are not transferable to financ
 - A non-regulatory research profile covering horizon, liquidity, loss tolerance, experience,
   product knowledge, concentration, and currency exposure.
 - A deterministic policy engine for advice/execution boundaries and product-profile conflicts.
-- Dated, source-linked evidence retrieval over offline curated research notes.
+- Checksum-verified official PDF/HTML ingestion with page/paragraph retrieval and locators.
 - Deterministic return, volatility, drawdown, fee, concentration, exposure, scenario, ratio,
   and comparison calculations.
 - A model-provider boundary with a fully functional mock mode.
@@ -74,7 +74,8 @@ renders structured results and never calculates financial metrics itself.
 
 - `UserProfile`: voluntarily supplied research context; no identity fields.
 - `Instrument`: synthetic product metadata and risk characteristics.
-- `ResearchDocument`: a short, paraphrased research note with source URL and dates.
+- `OfficialSourceDocument`: URL, version, retrieval timestamp, media type, size and file SHA-256.
+- `DocumentChunk`: extracted text with parent hash and page or paragraph/source-line location.
 - `PricePoint`: deterministic synthetic price series used only for calculation demonstrations.
 - `PortfolioHolding`: synthetic position and exposure data.
 - `AuditEvent`: request, selected clarification, policy outcome, evidence and tool trace.
@@ -87,6 +88,7 @@ renders structured results and never calculates financial metrics itself.
 4. Research, compare, portfolio, evidence, audit and evaluation UI.
 5. 100+ deterministic cases, unit/integration tests, evaluation report and demo script.
 6. Clean-environment run, visual QA, source-repository integrity check and truth audit.
+7. P0 official pack, chunk citations, conflict/version gates and 39-case trace evaluation.
 
 ## Definition of done
 
@@ -96,4 +98,3 @@ renders structured results and never calculates financial metrics itself.
 - Policy and suitability outcomes remain correct if the model layer is unavailable.
 - Evaluation output is generated from committed cases and reproducible commands.
 - The Converge working tree remains unchanged from the recorded baseline.
-

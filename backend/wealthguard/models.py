@@ -28,6 +28,7 @@ class PolicyOutcome(StrEnum):
 
 
 class DataStatus(StrEnum):
+    OFFICIAL_SOURCE = "official_source"
     PUBLIC_PARAPHRASE = "public_source_paraphrase"
     SYNTHETIC = "synthetic_demo_data"
 
@@ -101,19 +102,81 @@ class ResearchDocument(BaseModel):
 
 
 class Evidence(BaseModel):
+    chunk_id: str | None = None
     document_id: str
     instrument_id: str | None = None
     title: str
     document_type: str
     source_name: str
     source_url: str
-    published_at: date
+    published_at: date | None
     retrieved_at: date
     excerpt: str
     structured_facts: dict[str, str] = Field(default_factory=dict)
     score: float
     freshness: str
     data_status: DataStatus
+    version: str | None = None
+    version_status: str = "unknown"
+    page_number: int | None = None
+    section: str | None = None
+    paragraph_start: int | None = None
+    paragraph_end: int | None = None
+    source_line_start: int | None = None
+    source_line_end: int | None = None
+    locator_url: str | None = None
+    document_sha256: str | None = None
+
+
+class OfficialSourceDocument(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    document_id: str
+    instrument_id: str | None = None
+    title: str
+    document_type: str
+    authority: str
+    jurisdiction: str
+    source_name: str
+    source_url: str
+    published_at: date | None = None
+    retrieved_at: datetime
+    version: str
+    raw_path: str
+    raw_filename: str
+    expected_media_type: str
+    media_type: str
+    size_bytes: int = Field(gt=0)
+    sha256: str = Field(min_length=64, max_length=64)
+    data_status: DataStatus = DataStatus.OFFICIAL_SOURCE
+
+
+class DocumentChunk(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    chunk_id: str
+    document_id: str
+    instrument_id: str | None = None
+    title: str
+    document_type: str
+    source_name: str
+    source_url: str
+    published_at: date | None = None
+    retrieved_at: date
+    version: str
+    version_status: str
+    document_sha256: str
+    ordinal: int = Field(ge=1)
+    text: str = Field(min_length=1)
+    text_sha256: str = Field(min_length=64, max_length=64)
+    page_number: int | None = Field(default=None, ge=1)
+    section: str | None = None
+    paragraph_start: int = Field(ge=1)
+    paragraph_end: int = Field(ge=1)
+    source_line_start: int | None = Field(default=None, ge=1)
+    source_line_end: int | None = Field(default=None, ge=1)
+    structured_facts: dict[str, str] = Field(default_factory=dict)
+    data_status: DataStatus = DataStatus.OFFICIAL_SOURCE
 
 
 class ClarificationCandidate(BaseModel):

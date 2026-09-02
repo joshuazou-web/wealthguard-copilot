@@ -53,7 +53,8 @@ confidence, provider version, and regression failures.
 4. The highest-scoring question is shown with alternatives and a reason.
 5. Policy rules independently check execution, guarantee, bypass, sensitive-data, distress,
    minor, horizon, liquidity, loss-tolerance, and complexity conflicts.
-6. The retriever returns dated source notes. A freshness label and provenance status remain
+6. The retriever returns dated official-source chunks. Page/paragraph location, freshness,
+   version status, provenance and parent checksum remain
    attached to each result.
 7. Deterministic tools calculate research metrics from fixed synthetic fixtures.
 8. The provider composes only from the supplied evidence; citation identifiers are validated.

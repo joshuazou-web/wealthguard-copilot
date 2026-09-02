@@ -17,6 +17,7 @@ from .models import (
     CompareRequest,
     CompareResponse,
     DataStatus,
+    DocumentChunk,
     Instrument,
     PolicyDecision,
     PolicyHit,
@@ -28,6 +29,7 @@ from .models import (
     ResearchResponse,
     UserProfile,
 )
+from .official_ingestion import CHUNKS_PATH, MANIFEST_PATH, load_chunks, load_manifest
 from .policy import evaluate, required_profile_fields
 from .retrieval import Retriever
 from .store import SessionStore
@@ -40,10 +42,32 @@ class WealthGuardService:
         self,
         provider: Provider | None = None,
         research_documents: list[ResearchDocument] | None = None,
+        research_chunks: list[DocumentChunk] | None = None,
     ) -> None:
         self.instruments = instrument_map()
-        self.documents = ingest_documents(research_documents or fixture_documents())
-        self.retriever = Retriever(self.documents)
+        if research_chunks is not None:
+            legacy_documents = ingest_documents(research_documents or [])
+            self.documents = legacy_documents
+            self.official_sources = []
+            self.retriever = Retriever(legacy_documents, chunks=research_chunks)
+        elif research_documents is not None:
+            legacy_documents = ingest_documents(research_documents)
+            self.documents = legacy_documents
+            self.official_sources = []
+            self.retriever = Retriever(legacy_documents)
+        elif MANIFEST_PATH.exists() and CHUNKS_PATH.exists():
+            self.official_sources = load_manifest()
+            official_chunks = load_chunks()
+            synthetic_documents = ingest_documents(
+                [item for item in fixture_documents() if item.data_status == DataStatus.SYNTHETIC]
+            )
+            self.documents = [*self.official_sources, *synthetic_documents]
+            self.retriever = Retriever(synthetic_documents, chunks=official_chunks)
+        else:
+            legacy_documents = ingest_documents(fixture_documents())
+            self.documents = legacy_documents
+            self.official_sources = []
+            self.retriever = Retriever(legacy_documents)
         self.provider = provider or provider_from_environment()
         self.store = SessionStore()
 
@@ -246,7 +270,7 @@ class WealthGuardService:
             profile_changes=profile_changes,
             clarification=question_plan if question_plan.selected else None,
             policy_hits=final_policy.hits,
-            evidence_ids=[item.document_id for item in evidence],
+            evidence_ids=[item.chunk_id or item.document_id for item in evidence],
             calculation_metrics=[item.metric for item in calc_results],
             provider=self.provider.name,
             model=self.provider.model,

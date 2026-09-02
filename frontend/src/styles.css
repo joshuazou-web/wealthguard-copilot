@@ -132,6 +132,7 @@ main { min-width: 0; }
 .evidence-card p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
 .evidence-card footer, .source-register footer { display: flex; justify-content: space-between; align-items: end; gap: 10px; margin-top: auto; padding-top: 15px; color: #7f8d8a; font-size: 8px; }
 .evidence-card a, .source-register a { color: var(--green); text-decoration: none; font-weight: 700; white-space: nowrap; }
+.claim-trace code a { color: var(--green); text-decoration: underline; overflow-wrap: anywhere; }
 .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin-top: 10px; }
 .metric-card { min-height: 126px; padding: 15px; background: #f8faf8; border: 1px solid var(--line); border-radius: 12px; }
 .metric-card > small { color: #6a7c78; font-size: 8px; }

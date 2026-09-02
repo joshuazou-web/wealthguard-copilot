@@ -12,10 +12,12 @@ local interface:
   refusal, and human review for declared prototype rules.
 - Implemented tested deterministic calculations for return, volatility, drawdown, fees,
   concentration, exposure, scenarios, selected ratios, and comparison normalisation.
-- Built dated evidence, citation validation, a mock/default provider boundary, audit records, and a
-  React/FastAPI product interface.
+- Built a 13-document official PDF/HTML pack with file/chunk checksums, PDF-page and HTML-paragraph
+  citations, version/freshness labels, conflict downgrade and exact-passage viewer.
 - Created and ran 126 fixed-seed synthetic regression cases; the latest generated run passed
   126/126 with the denominators published in `EVALUATION_REPORT.md`.
+- Created and ran 39 deterministic official citation-trace cases; the latest run passed 39/39
+  across 13 source documents.
 - Core demo and tests run without a paid API or API key.
 
 Each statement should be scoped to **prototype**, **synthetic**, **offline**, or **committed test
@@ -57,8 +59,8 @@ discard the synthetic taxonomy scope and would be misleading.
 
 ## Known product and engineering limits
 
-- Offline English-heavy source set with four instrument fixtures and six notes.
-- Public notes are curated paraphrases, not a full document-ingestion pipeline.
+- Offline English/Chinese set with 13 official originals and four instrument fixtures.
+- PDF extraction depends on embedded text; scanned or image-only sources need an OCR path.
 - Instrument metadata can combine a real name with synthetic analytical assumptions.
 - No authentication, durable database, access-control model, encryption design, or tamper-evident
   audit storage.

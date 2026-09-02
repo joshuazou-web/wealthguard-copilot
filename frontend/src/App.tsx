@@ -160,7 +160,7 @@ function App() {
           {research && <div className="response-stack">
             <div className="response-head"><div><span className="eyebrow">DECISION PATH</span><h2>{pretty(research.intent)}</h2></div><div><StatusPill value={research.outcome} /><span className="confidence">{pct(research.task_confidence)} task confidence</span></div></div>
             <article className="answer-card"><span className="eyebrow">COPILOT RESPONSE</span><p>{research.message}</p>
-              {research.claims.length > 0 && <div className="claim-trace">{research.claims.map((claim, index) => <div key={`${claim.text}-${index}`}><span>{claim.text}</span><code>{claim.citation_ids.join(", ")}{claim.synthetic ? " · synthetic" : ""}</code></div>)}</div>}
+              {research.claims.length > 0 && <div className="claim-trace">{research.claims.map((claim, index) => <div key={`${claim.text}-${index}`}><span>{claim.text}</span><code>{claim.citation_ids.map(citationId => { const cited = research.evidence.find(item => (item.chunk_id || item.document_id) === citationId); return cited ? <a key={citationId} href={cited.locator_url || cited.source_url} target="_blank" rel="noreferrer">{citationId}</a> : citationId; })}{claim.synthetic ? " · synthetic" : ""}</code></div>)}</div>}
               <small>{research.audit_id}</small>
             </article>
 
@@ -177,7 +177,7 @@ function App() {
 
             {research.conflicts.length > 0 && <article className="conflict-card"><span className="eyebrow">SOURCE CONFLICTS</span>{research.conflicts.map(conflict => <div key={`${conflict.instrument_id}-${conflict.fact_key}`}><strong>{conflict.instrument_id} · {pretty(conflict.fact_key)}</strong><p>{Object.entries(conflict.values).map(([value, sources]) => `${value} (${sources})`).join(" vs. ")}</p></div>)}</article>}
 
-            {research.evidence.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DATED EVIDENCE</span><h2>Sources used</h2></div><span>{research.evidence.length} cards</span></div><div className="evidence-grid">{research.evidence.map(item => <EvidenceCard key={item.document_id} item={item} />)}</div></section>}
+            {research.evidence.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DATED EVIDENCE</span><h2>Sources used</h2></div><span>{research.evidence.length} cards</span></div><div className="evidence-grid">{research.evidence.map(item => <EvidenceCard key={item.chunk_id || item.document_id} item={item} />)}</div></section>}
 
             {research.calculations.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DETERMINISTIC TOOLS</span><h2>Illustrative calculations</h2></div><span>Synthetic series</span></div><div className="metrics-grid">{research.calculations.slice(0, 6).map(item => <div className="metric-card" key={item.metric}><small>{item.metric}</small><MetricValue calculation={item} /><span>{item.formula}</span></div>)}</div></section>}
 
@@ -203,7 +203,8 @@ function App() {
 }
 
 function EvidenceCard({ item }: { item: Evidence }) {
-  return <article className="evidence-card"><div><StatusPill value={item.freshness} /><span className={item.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{item.data_status.includes("synthetic") ? "Synthetic" : "Public source"}</span></div><h3>{item.title}</h3><p>{item.excerpt}</p><footer><span>{item.source_name}<br />Published {item.published_at}</span><a href={item.source_url} target="_blank" rel="noreferrer">Open source ↗</a></footer></article>;
+  const location = item.page_number ? `Page ${item.page_number}` : item.paragraph_start ? `Paragraphs ${item.paragraph_start}–${item.paragraph_end}` : "Document";
+  return <article className="evidence-card"><div><StatusPill value={item.freshness} /><span className={item.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{item.data_status.includes("synthetic") ? "Synthetic" : "Verified official"}</span></div><h3>{item.title}</h3><small>{location} · {pretty(item.version_status)}{item.section ? ` · ${item.section}` : ""}</small><p>{item.excerpt}</p><footer><span>{item.source_name}<br />Published {item.published_at || "not stated"}<br />SHA-256 {item.document_sha256?.slice(0, 12)}…</span><a href={item.locator_url || item.source_url} target="_blank" rel="noreferrer">Open cited passage ↗</a></footer></article>;
 }
 
 function CompareView({ data }: { data: any }) {
@@ -237,7 +238,7 @@ function Exposure({ title, values }: { title: string; values: Record<string, num
 }
 
 function EvidenceView({ documents }: { documents: any[] }) {
-  return <section className="page-content"><div className="page-intro"><span className="eyebrow">SOURCE REGISTER</span><h2>Public paraphrases and synthetic fixtures stay distinct.</h2><p>Every note records document type, source, publication date, retrieval date and checksum.</p></div><div className="source-register">{documents.map(document => <article key={document.document_id}><div><span className={document.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{document.data_status.includes("synthetic") ? "Synthetic fixture" : "Public-source paraphrase"}</span><small>{document.document_type}</small></div><h3>{document.title}</h3><p>{document.content}</p><footer><span>{document.document_id}<br />SHA-256 {document.checksum.slice(0, 14)}…</span><a href={document.source_url} target="_blank" rel="noreferrer">Source ↗</a></footer></article>)}</div></section>;
+  return <section className="page-content"><div className="page-intro"><span className="eyebrow">SOURCE REGISTER</span><h2>Verified official originals and synthetic fixtures stay distinct.</h2><p>Each official file records version, retrieval timestamp, byte size and SHA-256 checksum.</p></div><div className="source-register">{documents.map(document => <article key={document.document_id}><div><span className={document.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{document.data_status.includes("synthetic") ? "Synthetic fixture" : "Verified official file"}</span><small>{document.document_type}</small></div><h3>{document.title}</h3><p>{document.version || document.content}</p><footer><span>{document.document_id}<br />SHA-256 {(document.sha256 || document.checksum).slice(0, 14)}…</span><a href={document.source_url} target="_blank" rel="noreferrer">Official source ↗</a></footer></article>)}</div></section>;
 }
 
 function AuditView({ events }: { events: any[] }) {

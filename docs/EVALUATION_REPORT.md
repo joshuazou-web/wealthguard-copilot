@@ -8,11 +8,21 @@ They do not measure real-user utility, open-world accuracy, production reliabili
 compliance, investment performance, conversion, retention, or financial outcomes.
 
 Generated machine-readable artifacts live in `results/evaluation.json` and
-`results/evaluation.md`. Regenerate them with:
+`results/evaluation.md`. A separate official-source traceability artifact contains **39/39 passed
+cases across 13 documents**. Regenerate both with:
 
 ```powershell
 .\.venv\Scripts\python.exe -m wealthguard.evaluation.runner
+.\.venv\Scripts\python.exe scripts\run_citation_evaluation.py
 ```
+
+## Official citation traceability evaluation
+
+`results/citation_evaluation.json` selects the first, middle and final chunk from every official
+document: 39 fixed cases. Each verifies the parent file checksum, chunk checksum, document/source
+link, date-or-explicit-undated state, exact page/paragraph location and non-empty extracted span.
+The latest run passed 39/39. This is an integrity/traceability test, not evidence of semantic
+entailment quality for arbitrary generated claims.
 
 ## Construction
 
@@ -40,8 +50,8 @@ removed based on its outcome. The suite contains:
 | Provider unavailable | 1 | Bounded mock fallback and disclosure |
 
 The English and Chinese prompts are hand-authored synthetic examples. Profile values, product
-fixtures, price paths, and portfolio inputs are synthetic. Public evidence is limited to the dated
-paraphrased source notes listed in `DATA_SOURCES.md`.
+fixtures, price paths, and portfolio inputs are synthetic. Default public evidence comes from the
+checksum-verified official originals listed in `DATA_SOURCES.md`.
 
 ## Metrics and formulas
 
@@ -62,7 +72,7 @@ better. Denominators include only cases where the behaviour is applicable.
 | Grounded-claim rate | 1.000 | 165 / 165 | Claim was cited or explicitly synthetic |
 | Unsupported-claim rate | 0.000 | 0 / 165 | Claim had unknown or missing evidence |
 | Numerical consistency | 1.000 | 55 / 55 | Core values matched independent recomputation |
-| Stale-data detection rate | 1.000 | 50 / 50 | Review-date/stale/future evidence added a date limitation |
+| Stale-data detection rate | 1.000 | 60 / 60 | Review-date/stale/future evidence added a date limitation |
 | Suitability-policy violation rate | 0.000 | 0 / 45 | Restricted case incorrectly returned informational |
 | Correct abstention rate | 1.000 | 5 / 5 | Invalid citations were removed and response downgraded |
 | Correct refusal rate | 1.000 | 15 / 15 | Declared refusal request was refused |

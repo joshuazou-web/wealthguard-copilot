@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T05:29:22.854338Z",
+  "generated_at": "2026-09-02T07:06:21.360104Z",
   "seed": 7319,
   "cases": 126,
   "passed": 126,
@@ -63,8 +63,8 @@
     },
     {
       "name": "stale_data_detection_rate",
-      "numerator": 50,
-      "denominator": 50,
+      "numerator": 60,
+      "denominator": 60,
       "value": 1.0,
       "definition": "Evidence marked review-date/stale/future produced a date limitation."
     },

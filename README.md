@@ -6,7 +6,7 @@
 
 WealthGuard Copilot is a local-first product prototype for turning an ambiguous wealth or
 securities question into a bounded, evidence-backed research task. It asks the missing question
-most likely to change the safe research path, retrieves dated source notes, delegates financial
+most likely to change the safe research path, retrieves page/paragraph-level official evidence, delegates financial
 arithmetic to deterministic tools, and exposes the entire decision trace for review.
 
 It is not a brokerage, robo-adviser, price predictor, product-ranking engine, regulated
@@ -36,8 +36,8 @@ The distinction from a conventional financial Q&A demo is structural:
 | Ambiguous request | Forward-simulates profile answers and prioritises clarification by information value |
 | Advice/execution boundary | Deterministic policy engine outside the model |
 | Financial arithmetic | Tested Python functions with formulas and assumptions |
-| Unsupported claims | Citation identifiers are validated before response delivery |
-| Stale information | Publication and retrieval dates are retained and surfaced |
+| Unsupported claims | Chunk citation IDs and parent checksums are validated before delivery |
+| Stale information | Publication, retrieval, freshness, and version status are surfaced |
 | Model unavailable | Mock provider preserves the core demo without an API key |
 | Reviewability | Append-only session trace records intent, policy, evidence, tools, model, and prompt version |
 
@@ -46,7 +46,7 @@ The distinction from a conventional financial Q&A demo is structural:
 1. Ask **“Is SPY suitable for me?”** with an incomplete research profile.
 2. Inspect why the system prioritises a horizon, liquidity, or loss-tolerance question.
 3. Add the requested context and run the research trace again.
-4. Review dated SEC/Investor.gov notes and synthetic calculation outputs.
+4. Open the exact SEC/HKEX/SZSE/CSRC passage behind a claim and inspect its location and hash.
 5. Ask **“Buy 100 shares of AAPL for me”** and inspect the deterministic refusal.
 6. Open **Review & audit** and **Evaluation** to inspect the trace and committed regression run.
 
@@ -60,7 +60,7 @@ See [the full demo script](docs/DEMO_SCRIPT.md).
 - **Compare** — side-by-side differences without a single “best” ranking.
 - **Portfolio risk** — concentration, sector/region/currency exposure, synthetic volatility and
   drawdown, and a simple synthetic scenario.
-- **Evidence library** — source URL, document type, dates, provenance label, and checksum.
+- **Evidence library** — 13 cached official originals with versions, locations and checksums.
 - **Review & audit** — request-to-response decision trace.
 - **Evaluation** — reproducible metrics and failures from the committed synthetic suite.
 
@@ -111,17 +111,16 @@ reused. See [the migration record](docs/CONVERGE_MIGRATION.md).
 
 ## Data and provenance
 
-The offline demo includes short, manually curated paraphrases of:
-
-- a 26 January 2026 SPY prospectus filed on SEC EDGAR;
-- Apple's fiscal-2025 Form 10-K filed on 31 October 2025;
-- Investor.gov education pages on fund fees and diversification;
-- two explicitly synthetic fund/disclosure fixtures.
+The offline pack contains 13 real public documents from SEC, HKEX, SZSE and CSRC official domains:
+three annual reports, three fund/ETF prospectuses, four investor-education documents, two
+regulatory rules and one exchange notice. Original PDF/HTML is retained and parsed into 1,714
+checksum-bound chunks with PDF pages or HTML paragraph/source-line locations. Claims open an
+escaped exact-passage viewer and, for PDFs, the cached original page.
 
 All return, volatility, drawdown, allocation, exposure, and scenario series are deterministic
 synthetic fixtures generated with seed `7319`. They are not historical performance. Every document
-records `source_name`, `source_url`, `document_type`, `published_at`, `retrieved_at`,
-`instrument_id`, `data_status`, and a SHA-256 checksum. See [data sources](docs/DATA_SOURCES.md)
+records `source_name`, `source_url`, `document_type`, `published_at`, `retrieved_at`, version,
+`instrument_id`, location, `data_status`, and SHA-256 checksums. See [data sources](docs/DATA_SOURCES.md)
 and [the data dictionary](docs/DATA_DICTIONARY.md).
 
 ## Local setup
@@ -151,19 +150,31 @@ Open `http://127.0.0.1:5173`. No API key is required.
 Optional provider variables are documented in `.env.example`. The core policy, retrieval,
 calculation, and evaluation paths do not require or trust an LLM.
 
+The committed offline pack runs without network access. To deliberately refresh it from the
+allowlisted official URLs, then rebuild all extracted chunks:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_official_sources.py --force
+.\.venv\Scripts\python.exe scripts\build_official_corpus.py
+```
+
+Review the changed files, versions and checksums before committing a refresh.
+
 ## Verification
 
 ```powershell
-.\.venv\Scripts\python.exe -m ruff format --check backend tests
-.\.venv\Scripts\python.exe -m ruff check backend tests
+.\.venv\Scripts\python.exe -m ruff format --check backend tests scripts
+.\.venv\Scripts\python.exe -m ruff check backend tests scripts
 .\.venv\Scripts\python.exe -m pytest
 .\.venv\Scripts\python.exe -m wealthguard.evaluation.runner
+.\.venv\Scripts\python.exe scripts\run_citation_evaluation.py
 pnpm --dir frontend typecheck
 pnpm --dir frontend build
 ```
 
-The latest committed evaluation artifact contains **126 fixed-seed synthetic taxonomy cases**.
-The verified run passed 126/126. This is regression coverage, not an estimate of real-user
+The latest artifacts contain **126 fixed-seed synthetic taxonomy cases** (126/126) and **39
+official citation-trace cases** (39/39; three spans per source). This is regression and integrity
+coverage, not an estimate of real-user
 quality, regulatory compliance, investment performance, conversion, or production reliability.
 Definitions, denominators, baselines, and limitations are in
 [the evaluation report](docs/EVALUATION_REPORT.md).

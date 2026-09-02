@@ -15,7 +15,7 @@ This is a regression result, not real-user, investment-performance, or productio
 | `grounded_claim_rate` | 1.000 | 165 / 165 |
 | `unsupported_claim_rate` | 0.000 | 0 / 165 |
 | `numerical_consistency` | 1.000 | 55 / 55 |
-| `stale_data_detection_rate` | 1.000 | 50 / 50 |
+| `stale_data_detection_rate` | 1.000 | 60 / 60 |
 | `suitability_policy_violation_rate` | 0.000 | 0 / 45 |
 | `correct_abstention_rate` | 1.000 | 5 / 5 |
 | `correct_refusal_rate` | 1.000 | 15 / 15 |

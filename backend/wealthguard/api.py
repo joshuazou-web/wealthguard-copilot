@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
+from html import escape
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, HTMLResponse
 
 from .models import CompareRequest, PortfolioRequest, ResearchRequest, UserProfile
 from .service import DISCLAIMER, WealthGuardService
@@ -39,6 +41,49 @@ def instruments() -> list[dict]:
 @app.get("/api/documents")
 def research_documents() -> list[dict]:
     return [item.model_dump(mode="json") for item in service.documents]
+
+
+@app.get("/api/evidence/open", response_class=HTMLResponse)
+def open_evidence(chunk_id: str = Query(min_length=3, max_length=300)) -> str:
+    chunk = service.retriever.chunk(chunk_id)
+    if chunk is None:
+        raise HTTPException(status_code=404, detail="unknown evidence chunk")
+    location = (
+        f"Page {chunk.page_number}"
+        if chunk.page_number
+        else (f"Paragraphs {chunk.paragraph_start}–{chunk.paragraph_end}")
+    )
+    if chunk.source_line_start:
+        location += f" · source lines {chunk.source_line_start}–{chunk.source_line_end}"
+    official_url = chunk.source_url + (f"#page={chunk.page_number}" if chunk.page_number else "")
+    raw_link = (
+        f'<a href="/api/sources/{escape(chunk.document_id)}/raw#page={chunk.page_number}">Open cached PDF at page</a>'
+        if chunk.page_number
+        else ""
+    )
+    return f"""<!doctype html><html><head><meta charset="utf-8"><title>{escape(chunk.title)}</title>
+    <style>body{{font:16px/1.6 system-ui;max-width:900px;margin:40px auto;padding:0 24px;color:#17312d}}
+    .meta{{color:#60736f}} pre{{white-space:pre-wrap;background:#f2f7f5;padding:24px;border-left:4px solid #157a6e}}
+    a{{color:#087668;margin-right:20px}}</style></head><body><h1>{escape(chunk.title)}</h1>
+    <p class="meta">{escape(chunk.document_id)} · {escape(location)} · published
+    {escape(str(chunk.published_at or "not stated"))}<br>
+    version: {escape(chunk.version)} · SHA-256: {escape(chunk.document_sha256)}</p>
+    <pre>{escape(chunk.text)}</pre><p>{raw_link}<a href="{escape(official_url)}">Open official original</a></p>
+    <p class="meta">For educational and research purposes only. Not investment advice.</p></body></html>"""
+
+
+@app.get("/api/sources/{document_id}/raw")
+def raw_source(document_id: str) -> FileResponse:
+    source = next((item for item in service.official_sources if item.document_id == document_id), None)
+    if source is None or source.media_type != "application/pdf":
+        raise HTTPException(status_code=404, detail="cached PDF not found")
+    path = Path(__file__).resolve().parents[2] / source.raw_path
+    return FileResponse(
+        path,
+        media_type="application/pdf",
+        filename=source.raw_filename,
+        content_disposition_type="inline",
+    )
 
 
 @app.post("/api/research")

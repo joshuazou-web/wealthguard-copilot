@@ -38,20 +38,24 @@ Instrument-level fields can mix a real public product name with synthetic analyt
 the current fixture therefore defaults to `synthetic_demo_data`. Source-backed facts live in
 documents and claims, where provenance can be expressed more precisely.
 
-## Research document and evidence
+## Official source, chunk and evidence
 
 | Field | Meaning |
 | --- | --- |
-| `document_id` | Stable source-note identifier |
+| `document_id`, `chunk_id` | Stable original-file identifier and exact cited-span identifier |
 | `instrument_id` | Optional associated instrument |
 | `document_type` | Prospectus, annual report, education note, or synthetic disclosure |
 | `source_name`, `source_url` | Human-readable source and original location |
-| `published_at`, `retrieved_at` | Source date and collection date |
-| `content`, `key_facts`, `structured_facts` | Curated paraphrase, review facts, and comparable fact values |
-| `data_status` | `public_source_paraphrase` or `synthetic_demo_data` |
-| `checksum` | SHA-256 of the committed note text |
+| `published_at`, `retrieved_at`, `version`, `version_status` | Source date, collection time and version relation |
+| `raw_path`, `media_type`, `size_bytes` | Offline original-file metadata |
+| `page_number` | One-based PDF page; null for HTML |
+| `paragraph_start`, `paragraph_end` | One-based extracted paragraph range |
+| `source_line_start`, `source_line_end`, `section` | HTML source lines and nearest heading where available |
+| `text`, `structured_facts` | Verbatim extracted span and comparable declared facts |
+| `data_status` | `official_source` or `synthetic_demo_data` in the default path |
+| `sha256`, `document_sha256`, `text_sha256` | Original-file and extracted-span integrity checks |
 | `score` | Local retrieval relevance score |
-| `freshness` | `current_for_demo`, `review_date`, `stale`, or `future_dated` date label |
+| `freshness` | `current_for_demo`, `review_date`, `stale`, `future_dated`, or `undated` |
 
 When two retrieved documents attach different values to the same instrument and structured-fact
 key, the evidence validator emits a conflict containing the fact key, values, and document IDs.

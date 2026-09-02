@@ -1,0 +1,557 @@
+{
+  "generated_at": "2026-09-02T07:06:23+00:00",
+  "scope": "Three deterministic citation-trace samples from each of 13 official documents.",
+  "cases": 39,
+  "passed": 39,
+  "failed": 0,
+  "documents": 13,
+  "chunks": 1714,
+  "cases_detail": [
+    {
+      "case_id": "SEC-SPY-497-2026-TRACE-1",
+      "chunk_id": "SEC-SPY-497-2026:para1-20:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-SPY-497-2026-TRACE-2",
+      "chunk_id": "SEC-SPY-497-2026:para2954-2954:c137",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-SPY-497-2026-TRACE-3",
+      "chunk_id": "SEC-SPY-497-2026:para3472-3474:c272",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-SPY-497-2025-TRACE-1",
+      "chunk_id": "SEC-SPY-497-2025:para1-13:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-SPY-497-2025-TRACE-2",
+      "chunk_id": "SEC-SPY-497-2025:para1449-1525:c172",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-SPY-497-2025-TRACE-3",
+      "chunk_id": "SEC-SPY-497-2025:para3781-3783:c342",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2025-TRACE-1",
+      "chunk_id": "SEC-AAPL-10K-2025:para1-53:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2025-TRACE-2",
+      "chunk_id": "SEC-AAPL-10K-2025:para993-1093:c14",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2025-TRACE-3",
+      "chunk_id": "SEC-AAPL-10K-2025:para1300-1305:c26",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2024-TRACE-1",
+      "chunk_id": "SEC-AAPL-10K-2024:para1-52:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2024-TRACE-2",
+      "chunk_id": "SEC-AAPL-10K-2024:para976-1065:c14",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SEC-AAPL-10K-2024-TRACE-3",
+      "chunk_id": "SEC-AAPL-10K-2024:para1281-1314:c27",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ANNUAL-REPORT-2025-TRACE-1",
+      "chunk_id": "HKEX-ANNUAL-REPORT-2025:p1:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ANNUAL-REPORT-2025-TRACE-2",
+      "chunk_id": "HKEX-ANNUAL-REPORT-2025:p129:c379",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ANNUAL-REPORT-2025-TRACE-3",
+      "chunk_id": "HKEX-ANNUAL-REPORT-2025:p240:c757",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETF-HANDBOOK-TRACE-1",
+      "chunk_id": "HKEX-ETF-HANDBOOK:p1:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETF-HANDBOOK-TRACE-2",
+      "chunk_id": "HKEX-ETF-HANDBOOK:p29:c39",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETF-HANDBOOK-TRACE-3",
+      "chunk_id": "HKEX-ETF-HANDBOOK:p54:c77",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETP-EDUCATION-2026-TRACE-1",
+      "chunk_id": "HKEX-ETP-EDUCATION-2026:para1-52:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETP-EDUCATION-2026-TRACE-2",
+      "chunk_id": "HKEX-ETP-EDUCATION-2026:para127-127:c6",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "HKEX-ETP-EDUCATION-2026-TRACE-3",
+      "chunk_id": "HKEX-ETP-EDUCATION-2026:para195-209:c11",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023-TRACE-1",
+      "chunk_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023:p1:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023-TRACE-2",
+      "chunk_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023:p79:c81",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023-TRACE-3",
+      "chunk_id": "SZSE-ENERGY-ETF-PROSPECTUS-2023:p156:c160",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LOF-EDUCATION-2023-TRACE-1",
+      "chunk_id": "SZSE-ETF-LOF-EDUCATION-2023:para1-2:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LOF-EDUCATION-2023-TRACE-2",
+      "chunk_id": "SZSE-ETF-LOF-EDUCATION-2023:para19-35:c3",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LOF-EDUCATION-2023-TRACE-3",
+      "chunk_id": "SZSE-ETF-LOF-EDUCATION-2023:para50-50:c5",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LISTING-NOTICE-2026-TRACE-1",
+      "chunk_id": "SZSE-ETF-LISTING-NOTICE-2026:para1-1:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LISTING-NOTICE-2026-TRACE-2",
+      "chunk_id": "SZSE-ETF-LISTING-NOTICE-2026:para2-5:c2",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "SZSE-ETF-LISTING-NOTICE-2026-TRACE-3",
+      "chunk_id": "SZSE-ETF-LISTING-NOTICE-2026:para2-5:c2",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-FUND-SALES-FEE-RULE-2025-TRACE-1",
+      "chunk_id": "CSRC-FUND-SALES-FEE-RULE-2025:para1-12:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-FUND-SALES-FEE-RULE-2025-TRACE-2",
+      "chunk_id": "CSRC-FUND-SALES-FEE-RULE-2025:para15-24:c3",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-FUND-SALES-FEE-RULE-2025-TRACE-3",
+      "chunk_id": "CSRC-FUND-SALES-FEE-RULE-2025:para25-30:c4",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016-TRACE-1",
+      "chunk_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016:p1:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016-TRACE-2",
+      "chunk_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016:p5:c5",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016-TRACE-3",
+      "chunk_id": "CSRC-INVESTOR-PROTECTION-FUND-RULE-2016:p9:c9",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012-TRACE-1",
+      "chunk_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012:para1-23:c1",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012-TRACE-2",
+      "chunk_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012:para311-346:c12",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    },
+    {
+      "case_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012-TRACE-3",
+      "chunk_id": "CSRC-SECURITIES-INVESTMENT-FUND-LAW-2012:para488-493:c22",
+      "passed": true,
+      "checks": {
+        "document_checksum": true,
+        "chunk_checksum": true,
+        "document_link": true,
+        "source_link": true,
+        "date_present_or_declared_undated": true,
+        "location_present": true,
+        "excerpt_present": true
+      }
+    }
+  ]
+}

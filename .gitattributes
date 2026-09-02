@@ -1,0 +1,4 @@
+# Preserve downloaded originals byte-for-byte across Windows and Unix checkouts.
+data/official/raw/** -text
+data/official/processed/*.jsonl text eol=lf
+data/official/*.json text eol=lf

@@ -38,7 +38,7 @@ class MockProvider:
             claims.append(
                 CitedClaim(
                     text=sentence,
-                    citation_ids=[item.document_id],
+                    citation_ids=[item.chunk_id or item.document_id],
                     synthetic=item.data_status.value.startswith("synthetic"),
                 )
             )
@@ -75,7 +75,7 @@ class OpenAICompatibleProvider:
             raise RuntimeError("optional provider is not configured")
         facts = [
             {
-                "citation_id": item.document_id,
+                "citation_id": item.chunk_id or item.document_id,
                 "text": item.excerpt,
                 "published_at": str(item.published_at),
             }
