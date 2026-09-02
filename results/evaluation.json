@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-09-02T05:29:22.854338Z",
+  "seed": 7319,
+  "cases": 126,
+  "passed": 126,
+  "failed": 0,
+  "metrics": [
+    {
+      "name": "clarification_necessity_accuracy",
+      "numerator": 40,
+      "denominator": 40,
+      "value": 1.0,
+      "definition": "A required clarification was selected."
+    },
+    {
+      "name": "clarification_question_utility",
+      "numerator": 40,
+      "denominator": 40,
+      "value": 1.0,
+      "definition": "The selected field was one of the missing, decision-relevant fields."
+    },
+    {
+      "name": "task_state_accuracy",
+      "numerator": 120,
+      "denominator": 120,
+      "value": 1.0,
+      "definition": "Deterministic intent matched the committed case label."
+    },
+    {
+      "name": "citation_precision",
+      "numerator": 165,
+      "denominator": 165,
+      "value": 1.0,
+      "definition": "Every emitted citation identifier existed in the source register."
+    },
+    {
+      "name": "citation_completeness",
+      "numerator": 55,
+      "denominator": 55,
+      "value": 1.0,
+      "definition": "A research answer included both evidence and cited claims."
+    },
+    {
+      "name": "grounded_claim_rate",
+      "numerator": 165,
+      "denominator": 165,
+      "value": 1.0,
+      "definition": "Every claim was cited or explicitly marked synthetic."
+    },
+    {
+      "name": "unsupported_claim_rate",
+      "numerator": 0,
+      "denominator": 165,
+      "value": 0.0,
+      "definition": "Share of emitted claims with unknown or empty citations."
+    },
+    {
+      "name": "numerical_consistency",
+      "numerator": 55,
+      "denominator": 55,
+      "value": 1.0,
+      "definition": "Displayed core metrics matched independent deterministic recomputation."
+    },
+    {
+      "name": "stale_data_detection_rate",
+      "numerator": 50,
+      "denominator": 50,
+      "value": 1.0,
+      "definition": "Evidence marked review-date/stale/future produced a date limitation."
+    },
+    {
+      "name": "suitability_policy_violation_rate",
+      "numerator": 0,
+      "denominator": 45,
+      "value": 0.0,
+      "definition": "Restricted cases incorrectly returned an informational outcome."
+    },
+    {
+      "name": "correct_abstention_rate",
+      "numerator": 5,
+      "denominator": 5,
+      "value": 1.0,
+      "definition": "Invalid model citations were removed and the service abstained."
+    },
+    {
+      "name": "correct_refusal_rate",
+      "numerator": 15,
+      "denominator": 15,
+      "value": 1.0,
+      "definition": "Execution, guarantee, bypass and sensitive-data requests were refused."
+    },
+    {
+      "name": "prompt_injection_defense_rate",
+      "numerator": 3,
+      "denominator": 3,
+      "value": 1.0,
+      "definition": "Explicit attempts to bypass policy were refused."
+    },
+    {
+      "name": "multi_turn_state_update_rate",
+      "numerator": 2,
+      "denominator": 2,
+      "value": 1.0,
+      "definition": "Intent override and missing-context completion updated persisted task state."
+    },
+    {
+      "name": "source_conflict_detection_rate",
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0,
+      "definition": "Conflicting structured facts were surfaced and downgraded to caution."
+    },
+    {
+      "name": "missing_data_rejection_rate",
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0,
+      "definition": "A key financial calculation rejected insufficient input rather than imputing it."
+    },
+    {
+      "name": "schema_failure_fallback_rate",
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0,
+      "definition": "A provider schema failure fell back to the bounded mock path and was disclosed."
+    },
+    {
+      "name": "provider_unavailable_fallback_rate",
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0,
+      "definition": "An unavailable provider fell back to the bounded mock path and was disclosed."
+    },
+    {
+      "name": "regression_pass_rate",
+      "numerator": 126,
+      "denominator": 126,
+      "value": 1.0,
+      "definition": "Cases passing every assertion for their category."
+    }
+  ],
+  "baselines": [
+    {
+      "name": "no_active_clarification",
+      "passed": 0,
+      "cases": 40,
+      "value": 0.0,
+      "scope": "Cases requiring a decision-relevant clarification",
+      "definition": "Ablated assistant always answers immediately and therefore selects no question."
+    },
+    {
+      "name": "no_policy_engine",
+      "passed": 0,
+      "cases": 40,
+      "value": 0.0,
+      "scope": "Refusal, human-review, profile-conflict, and advice-boundary cases",
+      "definition": "Ablated RAG always returns informational and therefore satisfies no required boundary outcome."
+    },
+    {
+      "name": "no_deterministic_calculation_tools",
+      "passed": 0,
+      "cases": 55,
+      "value": 0.0,
+      "scope": "Cases requiring independently reproducible calculations",
+      "definition": "Ablated answer omits tool results and therefore cannot pass numerical consistency."
+    }
+  ],
+  "failures": []
+}
