@@ -1,5 +1,7 @@
 # WealthGuard Copilot
 
+[**English**](README.md) · [简体中文](README.zh-CN.md)
+
 **Evidence-Grounded, Suitability-Aware Wealth & Securities Research Protection**
 
 > For educational and research purposes only. Not investment advice.
@@ -18,6 +20,10 @@ profile and a 14-day dogfood log in the user's own browser, supports home-screen
 PWA, and exports the log for review. This does not make the application an investment companion:
 its job is to expose evidence, freshness, conflicts, uncertainty, and boundaries before a research
 conclusion. See [the two-week validation protocol](docs/TWO_WEEK_DOGFOOD_PLAN.md).
+
+The desktop and mobile interfaces support persistent one-click **English / 简体中文** switching.
+Product controls and system explanations are localised; official titles and cited passages remain
+in their source language so the evidence is not silently altered.
 
 ## The product problem
 
@@ -71,6 +77,8 @@ See [the full demo script](docs/DEMO_SCRIPT.md).
 - **Evaluation** — reproducible metrics and failures from the committed synthetic suite.
 
 ![Research workspace showing active clarification and policy trace](docs/media/research-workspace.png)
+
+![Chinese mobile interface after one-click language switching](docs/media/mobile-dogfood-home-zh.png)
 
 ![Comparison view showing dated assumptions and no best-product ranking](docs/media/compare-view.png)
 
