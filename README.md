@@ -2,84 +2,124 @@
 
 [**English**](README.md) · [简体中文](README.zh-CN.md)
 
-**Evidence-Grounded, Suitability-Aware Wealth & Securities Research Protection**
+**Before a financial answer becomes advice, WealthGuard turns it into a research trail you can inspect.**
 
 > For educational and research purposes only. Not investment advice.
 
-WealthGuard Copilot is an evidence-grounded protection layer for turning an ambiguous wealth or
-securities question into a bounded, evidence-backed research task. It asks the missing question
-most likely to change the safe research path, retrieves page/paragraph-level official evidence, delegates financial
-arithmetic to deterministic tools, and exposes the entire decision trace for review.
+A person asks a simple question:
 
-It is not a brokerage, robo-adviser, price predictor, product-ranking engine, regulated
-suitability assessment, or live financial-institution product. It never places trades and does
-not connect to a brokerage account.
+> **“Is SPY suitable for me?”**
 
-The responsive web interface is the current product surface. It stores the voluntary research
-profile and a 14-day dogfood log in the user's own browser, supports home-screen installation as a
-PWA, and exports the log for review. This does not make the application an investment companion:
-its job is to expose evidence, freshness, conflicts, uncertainty, and boundaries before a research
-conclusion. See [the two-week validation protocol](docs/TWO_WEEK_DOGFOOD_PLAN.md).
+It sounds answerable. But the useful research path may change completely depending on time horizon,
+liquidity needs, loss tolerance, and what “suitable” is meant to mean. A fluent assistant can skip
+those gaps, calculate inside prose, cite an undated page, and still sound certain.
 
-The desktop and mobile interfaces support persistent one-click **English / 简体中文** switching.
-Product controls and system explanations are localised; official titles and cited passages remain
-in their source language so the evidence is not silently altered.
+WealthGuard takes a different path. It identifies the missing fact most likely to change the
+research outcome and asks **one** question. It then retrieves dated, page-level official evidence,
+runs financial arithmetic through deterministic tools, checks every citation, and shows the full
+decision trace—including uncertainty, conflicts, and reasons to stop.
 
-## The product problem
+If the user asks it to place a trade, promise a return, or cross the boundary from research into
+execution, it refuses. There is no brokerage connection and no hidden transaction path. The AI may
+help explain selected evidence; deterministic software owns policy, calculations, validation, and
+confidence gates. The human owns every real financial decision.
 
-Generic financial chatbots often answer before establishing a user's horizon, liquidity need,
-loss tolerance, or intended task. They may blur education, product research, personalised advice,
-and execution; perform important arithmetic in free-form text; or present undated claims without
-an inspectable source trail.
-
-WealthGuard changes that interaction:
+That is the product story:
 
 ```text
-question -> intent -> missing context -> highest-value clarification
-         -> policy boundary -> dated retrieval -> deterministic tools
-         -> evidence validation -> confidence gate -> answer / caution / abstain / refuse
-         -> audit trace
+an ambiguous question
+        ↓
+the one missing fact that could change the path
+        ↓
+dated official evidence + reproducible calculations
+        ↓
+answer / caution / abstain / refuse
+        ↓
+an inspectable research trail
 ```
 
-The distinction from a conventional financial Q&A demo is structural:
+WealthGuard is a local React/FastAPI research prototype—not a brokerage, robo-adviser, price
+predictor, regulated suitability assessment, or live financial-institution product. Profiles,
+portfolios, market-series calculations, and evaluation sessions are synthetic. Its purpose is to
+demonstrate how evidence, boundaries, and reviewability can be designed into a financial research
+experience before confident language reaches a user.
 
-| Concern | WealthGuard control |
+## Why this problem matters
+
+The dangerous moment is not an obviously absurd answer. It is a plausible answer produced before
+the system knows enough.
+
+Financial research questions routinely mix four different jobs:
+
+- learning how an instrument works;
+- comparing products using dated facts and explicit assumptions;
+- interpreting a portfolio or personal constraint;
+- asking for personalised advice or execution.
+
+A generic chatbot can blur those jobs into one conversation. WealthGuard makes the boundary
+visible. It does not maximise how often it answers; it tries to maximise how often the result is
+appropriately framed, supported, reproducible, and honest about what remains unknown.
+
+## What happens in one research session
+
+1. **Understand the job.** Classify the request as education, research, comparison, portfolio
+   analysis, personalised advice, or execution.
+2. **Ask only what can change the path.** Forward-simulate possible answers and select the
+   highest-information-value clarification instead of running a fixed questionnaire.
+3. **Keep policy outside the model.** Deterministic rules decide whether the system may answer,
+   caution, reframe, abstain, refuse, or require human review.
+4. **Ground the response.** Retrieve dated SEC, HKEX, SZSE, or CSRC material and preserve the exact
+   page or paragraph, version, freshness status, and checksum.
+5. **Calculate in code.** Returns, volatility, drawdown, allocation, exposure, and scenarios run
+   through tested functions with visible assumptions.
+6. **Make the result reviewable.** Validate citation IDs, surface conflicts and limitations, and
+   record the request-to-response trace.
+
+| Failure mode | WealthGuard response |
 | --- | --- |
-| Ambiguous request | Forward-simulates profile answers and prioritises clarification by information value |
-| Advice/execution boundary | Deterministic policy engine outside the model |
-| Financial arithmetic | Tested Python functions with formulas and assumptions |
-| Unsupported claims | Chunk citation IDs and parent checksums are validated before delivery |
-| Stale information | Publication, retrieval, freshness, and version status are surfaced |
-| Model unavailable | Mock provider preserves the core demo without an API key |
-| Reviewability | Append-only session trace records intent, policy, evidence, tools, model, and prompt version |
+| Missing horizon, liquidity, or loss tolerance | Ask the single question most likely to change the research path |
+| Advice or trade-execution request | Apply a deterministic boundary; no transaction capability exists |
+| Arithmetic hidden inside fluent prose | Use tested functions with formulas and assumptions |
+| Unsupported or stale claim | Validate evidence lineage and show dates, versions, and exact passages |
+| Model timeout or malformed output | Degrade to the deterministic path, caution, or abstention |
+| Reviewer asks “why did it say this?” | Expose intent, policy, evidence, tools, confidence, and prompt version |
 
-## Three-minute product tour
+## See the story in 2:35
 
-[Watch the 2:35 narrated demo with Chinese captions](demo-video/wealthguard-demo-captioned.mp4) ·
+[Watch the narrated demo with Chinese captions](demo-video/wealthguard-demo-captioned.mp4) ·
 [Clean narrated master](demo-video/wealthguard-demo-clean.mp4) ·
 [Chinese SRT](demo-video/wealthguard-demo.zh-CN.srt)
 
-1. Ask **“Is SPY suitable for me?”** with an incomplete research profile.
-2. Inspect why the system prioritises a horizon, liquidity, or loss-tolerance question.
-3. Add the requested context and run the research trace again.
-4. Open the exact SEC/HKEX/SZSE/CSRC passage behind a claim and inspect its location and hash.
-5. Ask **“Buy 100 shares of AAPL for me”** and inspect the deterministic refusal.
-6. Open **Review & audit** and **Evaluation** to inspect the trace and committed regression run.
+The demo follows one question from ambiguity to evidence:
+
+1. Ask **“Is SPY suitable for me?”** with an incomplete voluntary research profile.
+2. See why horizon, liquidity, or loss tolerance could change the path—and why only one is asked.
+3. Add the missing context and rerun the same research task.
+4. Open the exact official passage behind a claim and inspect its location and checksum.
+5. Ask **“Buy 100 shares of AAPL for me”** and see the deterministic refusal.
+6. Open **Review & audit** to reconstruct the complete decision trail.
+7. Open **Evaluation** to inspect the committed regression results and their limitations.
 
 See [the full demo script](docs/DEMO_SCRIPT.md) and
 [the reproducible video-production notes](docs/DEMO_VIDEO_PRODUCTION.md).
 
-## Product surfaces
+## What the prototype includes
 
-- **Research workspace** — intent, task state, clarification candidates, policy decisions,
-  evidence, calculations, confidence, and limitations.
-- **Research profile** — voluntary context that can be edited, skipped, or reset.
-- **Compare** — side-by-side differences without a single “best” ranking.
-- **Portfolio risk** — concentration, sector/region/currency exposure, synthetic volatility and
-  drawdown, and a simple synthetic scenario.
-- **Evidence library** — 13 cached official originals with versions, locations and checksums.
-- **Review & audit** — request-to-response decision trace.
+- **Research workspace** — the question, clarification, policy state, evidence, calculations,
+  confidence, and limitations in one trace.
+- **Research profile** — voluntary context stored in the user's own browser; it can be edited,
+  skipped, or reset.
+- **Compare** — dated, side-by-side differences without manufacturing a single “best” product.
+- **Portfolio risk** — concentration, sector/region/currency exposure, and explicitly synthetic
+  volatility, drawdown, and scenarios.
+- **Evidence library** — 13 cached official originals with versions, locations, and checksums.
+- **Review & audit** — an append-only request-to-response trace.
 - **Evaluation** — reproducible metrics and failures from the committed synthetic suite.
+- **Mobile/PWA experience** — home-screen installation, persistent English / 简体中文 switching,
+  and a browser-local 14-day dogfood log that can be exported for review.
+
+Official titles and cited passages remain in their source language so the evidence is not silently
+altered.
 
 ![Research workspace showing active clarification and policy trace](docs/media/research-workspace.png)
 
