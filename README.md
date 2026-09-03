@@ -55,6 +55,10 @@ The distinction from a conventional financial Q&A demo is structural:
 
 ## Three-minute product tour
 
+[Watch the 2:35 narrated demo with Chinese captions](demo-video/wealthguard-demo-captioned.mp4) ·
+[Clean narrated master](demo-video/wealthguard-demo-clean.mp4) ·
+[Chinese SRT](demo-video/wealthguard-demo.zh-CN.srt)
+
 1. Ask **“Is SPY suitable for me?”** with an incomplete research profile.
 2. Inspect why the system prioritises a horizon, liquidity, or loss-tolerance question.
 3. Add the requested context and run the research trace again.
@@ -62,7 +66,8 @@ The distinction from a conventional financial Q&A demo is structural:
 5. Ask **“Buy 100 shares of AAPL for me”** and inspect the deterministic refusal.
 6. Open **Review & audit** and **Evaluation** to inspect the trace and committed regression run.
 
-See [the full demo script](docs/DEMO_SCRIPT.md).
+See [the full demo script](docs/DEMO_SCRIPT.md) and
+[the reproducible video-production notes](docs/DEMO_VIDEO_PRODUCTION.md).
 
 ## Product surfaces
 

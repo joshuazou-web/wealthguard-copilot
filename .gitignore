@@ -19,3 +19,6 @@ Thumbs.db
 .chrome*-qa/
 .edge-qa/
 .tmp-vercel-*/
+demo-video/work/
+demo-video/*-narration.m4a
+demo-video/*contact-sheet.png

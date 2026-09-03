@@ -37,6 +37,10 @@ WealthGuard 将流程改造成：
 
 ## 三分钟演示路径
 
+[观看 2 分 35 秒中文旁白字幕版](demo-video/wealthguard-demo-captioned.mp4) ·
+[无内嵌字幕旁白母版](demo-video/wealthguard-demo-clean.mp4) ·
+[中文字幕文件](demo-video/wealthguard-demo.zh-CN.srt)
+
 1. 在研究信息不完整时询问：**“Is SPY suitable for me?”**。
 2. 查看系统为何优先询问期限、流动性需求或亏损容忍度。
 3. 补充信息后重新运行研究流程。
@@ -44,7 +48,8 @@ WealthGuard 将流程改造成：
 5. 输入：**“Buy 100 shares of AAPL for me”**，查看系统如何通过确定性策略拒绝交易执行。
 6. 在 **Review & audit** 和 **Evaluation** 中检查完整决策轨迹与真实回归结果。
 
-完整脚本见 [演示说明](docs/DEMO_SCRIPT.md)。
+完整脚本见 [演示说明](docs/DEMO_SCRIPT.md)，制作与复现流程见
+[演示视频制作说明](docs/DEMO_VIDEO_PRODUCTION.md)。
 
 ## 产品界面
 
