@@ -61,9 +61,21 @@ WealthGuard 将流程改造成：
 - **Review & audit**：回放从问题到回答的完整决策过程。
 - **Evaluation**：展示固定测试集、基线、指标和失败案例。
 
-![移动端证据化研究保护界面](docs/media/mobile-dogfood-home.png)
+**英文移动端**
 
-![一键切换后的中文移动端界面](docs/media/mobile-dogfood-home-zh.png)
+<p align="center">
+  <a href="docs/media/mobile-dogfood-home-1.png"><img src="docs/media/mobile-dogfood-home-1.png" width="32%" alt="英文移动端：研究入口与回答"></a>
+  <a href="docs/media/mobile-dogfood-home-2.png"><img src="docs/media/mobile-dogfood-home-2.png" width="32%" alt="英文移动端：官方证据"></a>
+  <a href="docs/media/mobile-dogfood-home-3.png"><img src="docs/media/mobile-dogfood-home-3.png" width="32%" alt="英文移动端：计算与研究信息"></a>
+</p>
+
+**中文移动端（一键切换后）**
+
+<p align="center">
+  <a href="docs/media/mobile-dogfood-home-zh-1.png"><img src="docs/media/mobile-dogfood-home-zh-1.png" width="32%" alt="中文移动端：研究入口与回答"></a>
+  <a href="docs/media/mobile-dogfood-home-zh-2.png"><img src="docs/media/mobile-dogfood-home-zh-2.png" width="32%" alt="中文移动端：官方证据"></a>
+  <a href="docs/media/mobile-dogfood-home-zh-3.png"><img src="docs/media/mobile-dogfood-home-zh-3.png" width="32%" alt="中文移动端：计算与研究信息"></a>
+</p>
 
 ![研究工作区中的主动澄清与策略轨迹](docs/media/research-workspace.png)
 

@@ -83,7 +83,11 @@ See [the full demo script](docs/DEMO_SCRIPT.md) and
 
 ![Research workspace showing active clarification and policy trace](docs/media/research-workspace.png)
 
-![Chinese mobile interface after one-click language switching](docs/media/mobile-dogfood-home-zh.png)
+<p align="center">
+  <a href="docs/media/mobile-dogfood-home-zh-1.png"><img src="docs/media/mobile-dogfood-home-zh-1.png" width="32%" alt="Chinese mobile interface: research entry and response"></a>
+  <a href="docs/media/mobile-dogfood-home-zh-2.png"><img src="docs/media/mobile-dogfood-home-zh-2.png" width="32%" alt="Chinese mobile interface: official evidence"></a>
+  <a href="docs/media/mobile-dogfood-home-zh-3.png"><img src="docs/media/mobile-dogfood-home-zh-3.png" width="32%" alt="Chinese mobile interface: calculations and research profile"></a>
+</p>
 
 ![Comparison view showing dated assumptions and no best-product ranking](docs/media/compare-view.png)
 
