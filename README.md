@@ -1,10 +1,10 @@
 # WealthGuard Copilot
 
-**Suitability-Aware Wealth & Securities Research Copilot**
+**Evidence-Grounded, Suitability-Aware Wealth & Securities Research Protection**
 
 > For educational and research purposes only. Not investment advice.
 
-WealthGuard Copilot is a local-first product prototype for turning an ambiguous wealth or
+WealthGuard Copilot is an evidence-grounded protection layer for turning an ambiguous wealth or
 securities question into a bounded, evidence-backed research task. It asks the missing question
 most likely to change the safe research path, retrieves page/paragraph-level official evidence, delegates financial
 arithmetic to deterministic tools, and exposes the entire decision trace for review.
@@ -12,6 +12,12 @@ arithmetic to deterministic tools, and exposes the entire decision trace for rev
 It is not a brokerage, robo-adviser, price predictor, product-ranking engine, regulated
 suitability assessment, or live financial-institution product. It never places trades and does
 not connect to a brokerage account.
+
+The responsive web interface is the current product surface. It stores the voluntary research
+profile and a 14-day dogfood log in the user's own browser, supports home-screen installation as a
+PWA, and exports the log for review. This does not make the application an investment companion:
+its job is to expose evidence, freshness, conflicts, uncertainty, and boundaries before a research
+conclusion. See [the two-week validation protocol](docs/TWO_WEEK_DOGFOOD_PLAN.md).
 
 ## The product problem
 
@@ -147,6 +153,20 @@ pnpm --dir frontend dev --host 127.0.0.1
 
 Open `http://127.0.0.1:5173`. No API key is required.
 
+For a production-equivalent single-container run, build the web app and serve it from FastAPI:
+
+```powershell
+pnpm --dir frontend build
+.\.venv\Scripts\python.exe -m uvicorn wealthguard.api:app --host 0.0.0.0 --port 8000
+```
+
+Or build the included container:
+
+```powershell
+docker build -t wealthguard-copilot .
+docker run --rm -p 8000:8000 wealthguard-copilot
+```
+
 Optional provider variables are documented in `.env.example`. The core policy, retrieval,
 calculation, and evaluation paths do not require or trust an LLM.
 
@@ -194,6 +214,8 @@ Definitions, denominators, baselines, and limitations are in
 - [Truth and limitations](docs/TRUTH_AND_LIMITATIONS.md)
 - [Dependency licence review](docs/DEPENDENCY_LICENSES.md)
 - [Final delivery audit](docs/FINAL_AUDIT.md)
+- [Public deployment](docs/PUBLIC_DEPLOYMENT.md)
+- [Two-week real-use validation](docs/TWO_WEEK_DOGFOOD_PLAN.md)
 
 ## Licence
 

@@ -6,9 +6,10 @@ import json
 from html import escape
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from .models import CompareRequest, PortfolioRequest, ResearchRequest, UserProfile
 from .service import DISCLAIMER, WealthGuardService
@@ -26,6 +27,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 service = WealthGuardService()
+
+
+@app.middleware("http")
+async def public_demo_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 
 @app.get("/health")
@@ -108,7 +120,10 @@ def portfolio(request: PortfolioRequest) -> dict:
 
 
 @app.get("/api/audit")
-def audit(session_id: str | None = None, limit: int = Query(default=50, ge=1, le=500)) -> list[dict]:
+def audit(
+    session_id: str = Query(min_length=8, max_length=80),
+    limit: int = Query(default=50, ge=1, le=500),
+) -> list[dict]:
     return [event.model_dump(mode="json") for event in service.store.audit(session_id, limit)]
 
 
@@ -134,3 +149,17 @@ def evaluation() -> dict:
     if not path.exists():
         return {"status": "not_run", "message": "Run: python -m wealthguard.evaluation.runner"}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+if FRONTEND_DIST.exists():
+    assets = FRONTEND_DIST / "assets"
+    if assets.exists():
+        app.mount("/assets", StaticFiles(directory=assets), name="assets")
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def frontend(path: str) -> FileResponse:
+        requested = (FRONTEND_DIST / path).resolve()
+        if path and requested.is_relative_to(FRONTEND_DIST.resolve()) and requested.is_file():
+            return FileResponse(requested)
+        return FileResponse(FRONTEND_DIST / "index.html")

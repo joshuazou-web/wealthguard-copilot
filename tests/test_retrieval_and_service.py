@@ -179,3 +179,9 @@ def test_health_and_no_key_research() -> None:
     )
     assert response.status_code == 200
     assert response.json()["evidence"]
+
+
+def test_public_audit_requires_an_explicit_session() -> None:
+    client = TestClient(app)
+    assert client.get("/api/audit").status_code == 422
+    assert client.get("/api/audit", params={"session_id": "browser-session"}).status_code == 200

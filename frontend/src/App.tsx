@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "./api";
+import { createDogfoodState, downloadDogfoodData, usePersistentState } from "./storage";
+import type { DogfoodState } from "./storage";
 import type { Calculation, Evidence, Instrument, ResearchResponse, UserProfile, View } from "./types";
 
 const NAV: Array<{ id: View; label: string; short: string }> = [
-  { id: "research", label: "Research workspace", short: "RW" },
+  { id: "research", label: "Evidence protection", short: "EP" },
   { id: "compare", label: "Compare", short: "CP" },
   { id: "portfolio", label: "Portfolio risk", short: "PR" },
   { id: "evidence", label: "Evidence library", short: "EV" },
@@ -69,9 +71,11 @@ function App() {
   const [view, setView] = useState<View>("research");
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [documents, setDocuments] = useState<any[]>([]);
-  const [profile, setProfile] = useState<UserProfile>(initialProfile);
-  const [query, setQuery] = useState("Is SPY suitable for me?");
-  const [selected, setSelected] = useState<string[]>(["SPY"]);
+  const [profile, setProfile] = usePersistentState<UserProfile>("wg-profile-v1", initialProfile);
+  const [query, setQuery] = usePersistentState("wg-query-v1", "Is SPY suitable for me?");
+  const [selected, setSelected] = usePersistentState<string[]>("wg-selected-v1", ["SPY"]);
+  const [dogfood, setDogfood] = usePersistentState<DogfoodState>("wg-dogfood-v1", createDogfoodState());
+  const [sessionId] = usePersistentState("wg-session-v1", crypto.randomUUID());
   const [research, setResearch] = useState<ResearchResponse | null>(null);
   const [comparison, setComparison] = useState<any>(null);
   const [portfolio, setPortfolio] = useState<any>(null);
@@ -86,6 +90,13 @@ function App() {
       .catch(err => setError(String(err)));
   }, []);
 
+  useEffect(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    setDogfood(current => current.visitDays.includes(today)
+      ? current
+      : { ...current, visitDays: [...current.visitDays, today] });
+  }, [setDogfood]);
+
   const selectedInstruments = useMemo(
     () => instruments.filter(item => selected.includes(item.instrument_id)),
     [instruments, selected]
@@ -95,9 +106,20 @@ function App() {
     const activeQuery = customQuery ?? query;
     setBusy(true); setError(""); setQuery(activeQuery);
     try {
-      const result = await api.research(activeQuery, profile, selected);
+      const result = await api.research(sessionId, activeQuery, profile, selected);
       setResearch(result);
       setProfile(current => ({ ...current, ...result.profile }));
+      setDogfood(current => ({
+        ...current,
+        sessions: [{
+          id: result.audit_id,
+          occurredAt: new Date().toISOString(),
+          query: activeQuery,
+          outcome: result.outcome,
+          evidenceCount: result.evidence.length,
+          evidenceOpened: 0
+        }, ...current.sessions].slice(0, 200)
+      }));
     } catch (err) { setError(String(err)); }
     finally { setBusy(false); }
   }
@@ -114,7 +136,7 @@ function App() {
           { instrument_id: "WGCASH", weight: 0.10 }
         ], -0.15));
       }
-      if (next === "review") setAudit(await api.audit());
+      if (next === "review") setAudit(await api.audit(sessionId));
       if (next === "evaluation") setEvaluation(await api.evaluation());
     } catch (err) { setError(String(err)); }
   }
@@ -123,26 +145,54 @@ function App() {
     setSelected(current => current.includes(id) ? current.filter(item => item !== id) : [...current, id].slice(-4));
   }
 
+  function recordEvidenceOpen() {
+    if (!research) return;
+    setDogfood(current => ({
+      ...current,
+      sessions: current.sessions.map(session => session.id === research.audit_id
+        ? { ...session, evidenceOpened: session.evidenceOpened + 1 }
+        : session)
+    }));
+  }
+
+  function recordFeedback(feedback: "useful" | "needs_work") {
+    if (!research) return;
+    setDogfood(current => ({
+      ...current,
+      sessions: current.sessions.map(session => session.id === research.audit_id
+        ? { ...session, feedback }
+        : session)
+    }));
+  }
+
+  function recordMiniProgramSignal(reason: "faster_entry" | "notifications" | "wechat_sharing") {
+    setDogfood(current => ({
+      ...current,
+      miniProgramSignals: [...current.miniProgramSignals, { occurredAt: new Date().toISOString(), reason }]
+    }));
+  }
+
   return <div className="app-shell">
     <aside className="sidebar">
-      <div className="brand"><div className="brand-mark">W</div><div><strong>WealthGuard</strong><span>Research Copilot</span></div></div>
+      <div className="brand"><div className="brand-mark">W</div><div><strong>WealthGuard</strong><span>Evidence protection</span></div></div>
       <nav>{NAV.map(item => <button key={item.id} className={view === item.id ? "active" : ""} onClick={() => loadView(item.id)}>
         <span>{item.short}</span>{item.label}
       </button>)}</nav>
-      <div className="boundary-card"><span className="eyebrow">PRODUCT BOUNDARY</span><strong>Evidence before answers.</strong><p>No trading, forecasts or guaranteed returns.</p></div>
+      <div className="boundary-card"><span className="eyebrow">PRODUCT BOUNDARY</span><strong>Evidence before conclusions.</strong><p>Research protection—not a trading companion, adviser or execution tool.</p></div>
     </aside>
 
     <main>
-      <header className="topbar"><div><span className="eyebrow">SUITABILITY-AWARE RESEARCH</span><h1>{NAV.find(item => item.id === view)?.label}</h1></div><div className="top-status"><i /> Mock mode · local data</div></header>
+      <header className="topbar"><div><span className="eyebrow">EVIDENCE-GROUNDED RESEARCH PROTECTION</span><h1>{NAV.find(item => item.id === view)?.label}</h1></div><div className="top-status"><i /> Privacy-first · device-saved study</div></header>
       <div className="disclaimer"><strong>Research prototype</strong><span>For educational and research purposes only. Not investment advice.</span><span>Public notes dated · calculation series synthetic</span></div>
       {error && <div className="error-banner">{error}</div>}
 
       {view === "research" && <div className="research-layout">
         <section className="workspace">
+          <DogfoodPanel data={dogfood} onExport={() => downloadDogfoodData(dogfood)} onSignal={recordMiniProgramSignal} />
           <div className="hero-panel">
-            <span className="eyebrow">ASK, CLARIFY, THEN RESEARCH</span>
-            <h2>Turn an ambiguous investment question into a bounded research task.</h2>
-            <p>The copilot chooses the missing detail most likely to change the safe research path, then grounds its response in dated evidence and deterministic calculations.</p>
+            <span className="eyebrow">QUESTION → EVIDENCE → BOUNDARY → TRACE</span>
+            <h2>Protect a financial research decision with inspectable evidence.</h2>
+            <p>WealthGuard identifies the missing detail most likely to change the safe research path, checks dated official material, and exposes uncertainty before a conclusion can feel more certain than its evidence.</p>
             <div className="preset-row">
               {["Is SPY suitable for me?", "Compare SPY and WGBOND", "Buy 100 shares of AAPL for me", "Recommend a guaranteed return product"].map(item =>
                 <button key={item} onClick={() => runResearch(item)}>{item}</button>
@@ -162,6 +212,7 @@ function App() {
             <article className="answer-card"><span className="eyebrow">COPILOT RESPONSE</span><p>{research.message}</p>
               {research.claims.length > 0 && <div className="claim-trace">{research.claims.map((claim, index) => <div key={`${claim.text}-${index}`}><span>{claim.text}</span><code>{claim.citation_ids.map(citationId => { const cited = research.evidence.find(item => (item.chunk_id || item.document_id) === citationId); return cited ? <a key={citationId} href={cited.locator_url || cited.source_url} target="_blank" rel="noreferrer">{citationId}</a> : citationId; })}{claim.synthetic ? " · synthetic" : ""}</code></div>)}</div>}
               <small>{research.audit_id}</small>
+              <div className="feedback-row"><span>Did this trace protect your research?</span><button onClick={() => recordFeedback("useful")}>Useful</button><button onClick={() => recordFeedback("needs_work")}>Needs work</button></div>
             </article>
 
             {research.clarification?.selected && <article className="clarification-card">
@@ -177,7 +228,7 @@ function App() {
 
             {research.conflicts.length > 0 && <article className="conflict-card"><span className="eyebrow">SOURCE CONFLICTS</span>{research.conflicts.map(conflict => <div key={`${conflict.instrument_id}-${conflict.fact_key}`}><strong>{conflict.instrument_id} · {pretty(conflict.fact_key)}</strong><p>{Object.entries(conflict.values).map(([value, sources]) => `${value} (${sources})`).join(" vs. ")}</p></div>)}</article>}
 
-            {research.evidence.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DATED EVIDENCE</span><h2>Sources used</h2></div><span>{research.evidence.length} cards</span></div><div className="evidence-grid">{research.evidence.map(item => <EvidenceCard key={item.chunk_id || item.document_id} item={item} />)}</div></section>}
+            {research.evidence.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DATED EVIDENCE</span><h2>Sources used</h2></div><span>{research.evidence.length} cards</span></div><div className="evidence-grid">{research.evidence.map(item => <EvidenceCard key={item.chunk_id || item.document_id} item={item} onOpen={recordEvidenceOpen} />)}</div></section>}
 
             {research.calculations.length > 0 && <section><div className="section-heading"><div><span className="eyebrow">DETERMINISTIC TOOLS</span><h2>Illustrative calculations</h2></div><span>Synthetic series</span></div><div className="metrics-grid">{research.calculations.slice(0, 6).map(item => <div className="metric-card" key={item.metric}><small>{item.metric}</small><MetricValue calculation={item} /><span>{item.formula}</span></div>)}</div></section>}
 
@@ -202,9 +253,23 @@ function App() {
   </div>;
 }
 
-function EvidenceCard({ item }: { item: Evidence }) {
+function DogfoodPanel({ data, onExport, onSignal }: { data: DogfoodState; onExport: () => void; onSignal: (reason: "faster_entry" | "notifications" | "wechat_sharing") => void }) {
+  const start = new Date(data.startedAt);
+  const elapsed = Math.max(1, Math.floor((Date.now() - start.getTime()) / 86400000) + 1);
+  const day = Math.min(14, elapsed);
+  const evidenceOpens = data.sessions.reduce((sum, session) => sum + session.evidenceOpened, 0);
+  const feedback = data.sessions.filter(session => session.feedback).length;
+  return <section className="dogfood-panel">
+    <div className="dogfood-title"><div><span className="eyebrow">14-DAY REAL-USE STUDY</span><h2>Day {day} of 14 · evidence protection log</h2></div><button onClick={onExport}>Export my data</button></div>
+    <div className="dogfood-metrics"><div><strong>{data.visitDays.length}</strong><span>active days</span></div><div><strong>{data.sessions.length}</strong><span>research traces</span></div><div><strong>{evidenceOpens}</strong><span>evidence opens</span></div><div><strong>{feedback}</strong><span>rated traces</span></div></div>
+    <div className="mini-signals"><span>Would a mini program solve a real problem today?</span><button onClick={() => onSignal("faster_entry")}>Faster entry</button><button onClick={() => onSignal("notifications")}>Notifications</button><button onClick={() => onSignal("wechat_sharing")}>WeChat sharing</button><small>{data.miniProgramSignals.length} needs recorded</small></div>
+    <p>Stored only in this browser. Do not enter account numbers, holdings, identity documents, or other sensitive financial data.</p>
+  </section>;
+}
+
+function EvidenceCard({ item, onOpen }: { item: Evidence; onOpen?: () => void }) {
   const location = item.page_number ? `Page ${item.page_number}` : item.paragraph_start ? `Paragraphs ${item.paragraph_start}–${item.paragraph_end}` : "Document";
-  return <article className="evidence-card"><div><StatusPill value={item.freshness} /><span className={item.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{item.data_status.includes("synthetic") ? "Synthetic" : "Verified official"}</span></div><h3>{item.title}</h3><small>{location} · {pretty(item.version_status)}{item.section ? ` · ${item.section}` : ""}</small><p>{item.excerpt}</p><footer><span>{item.source_name}<br />Published {item.published_at || "not stated"}<br />SHA-256 {item.document_sha256?.slice(0, 12)}…</span><a href={item.locator_url || item.source_url} target="_blank" rel="noreferrer">Open cited passage ↗</a></footer></article>;
+  return <article className="evidence-card"><div><StatusPill value={item.freshness} /><span className={item.data_status.includes("synthetic") ? "source synthetic" : "source public"}>{item.data_status.includes("synthetic") ? "Synthetic" : "Verified official"}</span></div><h3>{item.title}</h3><small>{location} · {pretty(item.version_status)}{item.section ? ` · ${item.section}` : ""}</small><p>{item.excerpt}</p><footer><span>{item.source_name}<br />Published {item.published_at || "not stated"}<br />SHA-256 {item.document_sha256?.slice(0, 12)}…</span><a href={item.locator_url || item.source_url} target="_blank" rel="noreferrer" onClick={onOpen}>Open cited passage ↗</a></footer></article>;
 }
 
 function CompareView({ data }: { data: any }) {

@@ -16,3 +16,6 @@ results/tmp/
 *.sqlite3
 .DS_Store
 Thumbs.db
+.chrome*-qa/
+.edge-qa/
+.tmp-vercel-*/

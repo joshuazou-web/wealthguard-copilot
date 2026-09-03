@@ -15,10 +15,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   instruments: () => request<Instrument[]>("/api/instruments"),
   documents: () => request<any[]>("/api/documents"),
-  research: (query: string, profile: UserProfile, instrumentIds: string[]) =>
+  research: (sessionId: string, query: string, profile: UserProfile, instrumentIds: string[]) =>
     request<ResearchResponse>("/api/research", {
       method: "POST",
-      body: JSON.stringify({ session_id: "portfolio-demo", query, profile, instrument_ids: instrumentIds })
+      body: JSON.stringify({ session_id: sessionId, query, profile, instrument_ids: instrumentIds })
     }),
   compare: (instrumentIds: string[]) =>
     request<any>("/api/compare", { method: "POST", body: JSON.stringify({ instrument_ids: instrumentIds }) }),
@@ -27,7 +27,6 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ holdings, scenario_shock: scenarioShock })
     }),
-  audit: () => request<any[]>("/api/audit?session_id=portfolio-demo"),
+  audit: (sessionId: string) => request<any[]>(`/api/audit?session_id=${encodeURIComponent(sessionId)}`),
   evaluation: () => request<any>("/api/evaluation")
 };
-
