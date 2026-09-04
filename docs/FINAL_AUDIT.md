@@ -4,7 +4,7 @@ Audit date: 2026-09-02
 
 ## Repository integrity
 
-- WealthGuard is an independent Git repository on `codex/wealthguard-copilot` with no remote.
+- WealthGuard Proofline is an independent Git repository; this audit does not claim Tencent or brokerage affiliation.
 - Converge remained at `b371720f5a02afc5791fdbd8887927d6452f923e` with no tracked diff.
 - The pre-existing untracked Converge file `results/codex-verification.json` remained unmodified and
   untracked.

@@ -4,22 +4,24 @@ import { displayValue, localizeText, pick } from "./i18n";
 import type { Language } from "./i18n";
 import { createDogfoodState, downloadDogfoodData, usePersistentState } from "./storage";
 import type { DogfoodState } from "./storage";
-import type { Calculation, Evidence, Instrument, ResearchResponse, UserProfile, View } from "./types";
+import type { BadCase, Calculation, Evidence, Instrument, ResearchResponse, UserProfile, View } from "./types";
 
 const NAV: Array<{ id: View; en: string; zh: string; short: string }> = [
-  { id: "research", en: "Evidence protection", zh: "证据保护", short: "EP" },
-  { id: "compare", en: "Compare", zh: "产品比较", short: "CP" },
+  { id: "research", en: "Research guard", zh: "研究增强", short: "RG" },
+  { id: "compare", en: "Compare guard", zh: "比较增强", short: "CP" },
   { id: "portfolio", en: "Portfolio risk", zh: "组合风险", short: "PR" },
   { id: "evidence", en: "Evidence library", zh: "证据库", short: "EV" },
+  { id: "quality", en: "Quality operations", zh: "质量运营", short: "QO" },
   { id: "review", en: "Review & audit", zh: "复核审计", short: "RA" },
   { id: "evaluation", en: "Evaluation", zh: "系统评测", short: "QA" }
 ];
 
 const PRESETS = [
-  { en: "Is SPY suitable for me?", zh: "SPY 适合我吗？" },
-  { en: "Compare SPY and WGBOND", zh: "比较 SPY 与 WGBOND" },
-  { en: "Buy 100 shares of AAPL for me", zh: "替我买入 100 股 AAPL" },
-  { en: "Recommend a guaranteed return product", zh: "推荐一个稳赚产品" }
+  { en: "Why did AAPL's FY2025 revenue change?", zh: "AAPL 2025 财年收入为什么变化？", instruments: ["AAPL"] },
+  { en: "Is the latest ETF listing notice still current?", zh: "这份 ETF 上市公告目前是否仍然有效？", instruments: [] },
+  { en: "Compare SPY and WGBOND", zh: "比较 SPY 与 WGBOND，需要先补充什么条件？", instruments: ["SPY", "WGBOND"] },
+  { en: "Buy 100 shares of AAPL for me", zh: "替我买入 100 股 AAPL", instruments: ["AAPL"] },
+  { en: "Recommend a guaranteed return product", zh: "推荐一个稳赚产品", instruments: [] }
 ];
 
 const initialProfile: UserProfile = {
@@ -81,8 +83,8 @@ function App() {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [documents, setDocuments] = useState<any[]>([]);
   const [profile, setProfile] = usePersistentState<UserProfile>("wg-profile-v1", initialProfile);
-  const [query, setQuery] = usePersistentState("wg-query-v1", "Is SPY suitable for me?");
-  const [selected, setSelected] = usePersistentState<string[]>("wg-selected-v1", ["SPY"]);
+  const [query, setQuery] = usePersistentState("wg-query-v1", "Why did AAPL's FY2025 revenue change?");
+  const [selected, setSelected] = usePersistentState<string[]>("wg-selected-v1", ["AAPL"]);
   const [dogfood, setDogfood] = usePersistentState<DogfoodState>("wg-dogfood-v1", createDogfoodState());
   const [sessionId] = usePersistentState("wg-session-v1", crypto.randomUUID());
   const [language, setLanguage] = usePersistentState<Language>("wg-language-v1", "en");
@@ -91,6 +93,8 @@ function App() {
   const [portfolio, setPortfolio] = useState<any>(null);
   const [audit, setAudit] = useState<any[]>([]);
   const [evaluation, setEvaluation] = useState<any>(null);
+  const [qualityCases, setQualityCases] = useState<BadCase[]>([]);
+  const [taxonomy, setTaxonomy] = useState<any[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -116,12 +120,14 @@ function App() {
     [instruments, selected]
   );
 
-  async function runResearch(customQuery?: string) {
+  async function runResearch(customQuery?: string, customSelected?: string[]) {
     const visibleQuery = customQuery ?? query;
     const canonicalQuery = PRESETS.find(item => item.en === visibleQuery || item.zh === visibleQuery)?.en ?? visibleQuery;
     setBusy(true); setError(""); setQuery(visibleQuery);
     try {
-      const result = await api.research(sessionId, canonicalQuery, profile, selected);
+      const instrumentsForRun = customSelected ?? selected;
+      if (customSelected) setSelected(customSelected);
+      const result = await api.research(sessionId, canonicalQuery, profile, instrumentsForRun);
       setResearch(result);
       setProfile(current => ({ ...current, ...result.profile }));
       setDogfood(current => ({
@@ -153,6 +159,10 @@ function App() {
       }
       if (next === "review") setAudit(await api.audit(sessionId));
       if (next === "evaluation") setEvaluation(await api.evaluation());
+      if (next === "quality") {
+        const [cases, definitions] = await Promise.all([api.qualityCases(), api.qualityTaxonomy()]);
+        setQualityCases(cases); setTaxonomy(definitions);
+      }
     } catch (err) { setError(String(err)); }
   }
 
@@ -196,7 +206,7 @@ function App() {
 
   return <div className="app-shell">
     <aside className="sidebar">
-      <div className="brand"><div className="brand-mark">W</div><div><strong>WealthGuard</strong><span>{pick(language, "Evidence protection", "证据化研究保护")}</span></div></div>
+      <div className="brand"><div className="brand-mark">W</div><div><strong>WealthGuard</strong><span>{pick(language, "Proofline", "证据防线")}</span></div></div>
       <nav>{NAV.map(item => <button key={item.id} className={view === item.id ? "active" : ""} onClick={() => loadView(item.id)}>
         <span>{item.short}</span>{pick(language, item.en, item.zh)}
       </button>)}</nav>
@@ -205,11 +215,12 @@ function App() {
 
     <main>
       <header className="topbar"><div><span className="eyebrow">{pick(language, "EVIDENCE-GROUNDED RESEARCH PROTECTION", "基于证据的金融研究保护")}</span><h1>{NAV.find(item => item.id === view) ? pick(language, NAV.find(item => item.id === view)!.en, NAV.find(item => item.id === view)!.zh) : ""}</h1></div><div className="top-actions"><div className="top-status"><i /> {pick(language, "Privacy-first · device-saved study", "隐私优先 · 数据保存在本机")}</div><button className="language-toggle" onClick={toggleLanguage} aria-label={pick(language, "Switch to Chinese", "切换到英文")}>{language === "en" ? "中文" : "EN"}</button></div></header>
-      <div className="disclaimer"><strong>{pick(language, "Research prototype", "研究原型")}</strong><span>{pick(language, "For educational and research purposes only. Not investment advice.", "仅用于教育与研究，不构成投资建议。")}</span><span>{pick(language, "Public notes dated · calculation series synthetic", "公开资料标注日期 · 计算序列为合成数据")}</span></div>
+      <div className="disclaimer"><strong>{pick(language, "Tencent ecosystem enhancement concept", "腾讯证券生态增强方案")}</strong><span>{pick(language, "Complements Tencent Portfolio / StockBuddy; does not replace market data, community or brokerage execution.", "补充腾讯自选股 / StockBuddy，不替代行情、资讯社区或券商交易。")}</span><span>{pick(language, "Prototype · no Tencent affiliation", "独立原型 · 不代表腾讯合作")}</span></div>
       {error && <div className="error-banner">{error}</div>}
 
       {view === "research" && <div className="research-layout">
         <section className="workspace">
+          <IntegrationPanel language={language} />
           <DogfoodPanel language={language} data={dogfood} onExport={() => downloadDogfoodData(dogfood)} onSignal={recordMiniProgramSignal} />
           <div className="hero-panel">
             <span className="eyebrow">{pick(language, "QUESTION → EVIDENCE → BOUNDARY → TRACE", "问题 → 证据 → 边界 → 轨迹")}</span>
@@ -217,7 +228,7 @@ function App() {
             <p>{pick(language, "WealthGuard identifies the missing detail most likely to change the safe research path, checks dated official material, and exposes uncertainty before a conclusion can feel more certain than its evidence.", "WealthGuard 识别最可能改变安全研究路径的缺失信息，核查带日期的官方资料，并在结论显得比证据更确定之前揭示不确定性。")}</p>
             <div className="preset-row">
               {PRESETS.map(item =>
-                <button key={item.en} onClick={() => runResearch(item[language])}>{pick(language, item.en, item.zh)}</button>
+                <button key={item.en} onClick={() => runResearch(item[language], item.instruments)}>{pick(language, item.en, item.zh)}</button>
               )}
             </div>
           </div>
@@ -231,7 +242,7 @@ function App() {
 
           {research && <div className="response-stack">
             <div className="response-head"><div><span className="eyebrow">{pick(language, "DECISION PATH", "决策路径")}</span><h2>{pretty(research.intent, language)}</h2></div><div><StatusPill value={research.outcome} language={language} /><span className="confidence">{pct(research.task_confidence)} {pick(language, "task confidence", "任务置信度")}</span></div></div>
-            <article className="answer-card"><span className="eyebrow">{pick(language, "COPILOT RESPONSE", "系统回复")}</span><p>{localizeText(research.message, language)}</p>
+            <article className="answer-card"><span className="eyebrow">{pick(language, "VERIFIED RESPONSE", "核验结果")}</span><p>{localizeText(research.message, language)}</p>
               {research.claims.length > 0 && <div className="claim-trace">{research.claims.map((claim, index) => <div key={`${claim.text}-${index}`}><span>{claim.text}</span><code>{claim.citation_ids.map(citationId => { const cited = research.evidence.find(item => (item.chunk_id || item.document_id) === citationId); return cited ? <a key={citationId} href={cited.locator_url || cited.source_url} target="_blank" rel="noreferrer">{citationId}</a> : citationId; })}{claim.synthetic ? " · synthetic" : ""}</code></div>)}</div>}
               <small>{research.audit_id}</small>
               <div className="feedback-row"><span>{pick(language, "Did this trace protect your research?", "这次追溯是否真正保护了你的研究判断？")}</span><button onClick={() => recordFeedback("useful")}>{pick(language, "Useful", "有帮助")}</button><button onClick={() => recordFeedback("needs_work")}>{pick(language, "Needs work", "需要改进")}</button></div>
@@ -269,10 +280,25 @@ function App() {
       {view === "compare" && <CompareView data={comparison} language={language} />}
       {view === "portfolio" && <PortfolioView data={portfolio} language={language} />}
       {view === "evidence" && <EvidenceView documents={documents} language={language} />}
+      {view === "quality" && <QualityView cases={qualityCases} taxonomy={taxonomy} language={language} />}
       {view === "review" && <AuditView events={audit} language={language} />}
       {view === "evaluation" && <EvaluationView data={evaluation} language={language} />}
     </main>
   </div>;
+}
+
+function IntegrationPanel({ language }: { language: Language }) {
+  const steps = [
+    ["01", "Tencent Portfolio / StockBuddy", "自选股 / StockBuddy", "Market data, news, discovery, watchlists", "行情、资讯、发现与自选入口"],
+    ["02", "WealthGuard guardrail", "WealthGuard 增强层", "Check source version, calculations, citations and answerability", "核验版本、计算、引用与可回答性"],
+    ["03", "Tencent flow continues", "回到腾讯主链路", "Return an evidence card or quality signal; execution stays with the licensed broker", "返回证据卡或质量信号；交易仍由持牌券商承接"]
+  ];
+  return <section className="integration-panel">
+    <div><span className="eyebrow">{pick(language, "COMPLEMENT, NOT REPLACEMENT", "补充而非替代")}</span><h2>{pick(language, "Evidence before trust. Quality after failure.", "答案可信之前先核验证据，答案出错之后把失败变成改进。")}</h2></div>
+    <p>{pick(language, "After sustained use of securities assistants, we found that another market view or AI answer was not the missing piece. The host product keeps its strongest assets—WeChat entry, real-time data, content, watchlists, alerts and broker connectivity—while Proofline is invoked only when a claim needs deeper verification or a failed answer needs diagnosis.", "持续使用多款证券助手后，我们发现缺少的不是另一套行情或另一遍 AI 回答。主产品继续保留微信入口、实时行情、资讯、自选、提醒与券商连接；只有当结论需要深度核验，或坏答案需要诊断时，才进入证据防线。")}</p>
+    <div className="integration-flow">{steps.map(step => <article key={step[0]}><b>{step[0]}</b><strong>{pick(language, step[1], step[2])}</strong><span>{pick(language, step[3], step[4])}</span></article>)}</div>
+    <small>{pick(language, "Proposed integration contract only; no Tencent API, account or production system is connected.", "仅为拟议集成契约；当前未连接腾讯 API、账户或生产系统。")}</small>
+  </section>;
 }
 
 function DogfoodPanel({ language, data, onExport, onSignal }: { language: Language; data: DogfoodState; onExport: () => void; onSignal: (reason: "faster_entry" | "notifications" | "wechat_sharing") => void }) {
@@ -339,6 +365,43 @@ function EvaluationView({ data, language }: { data: any; language: Language }) {
     {data.baselines?.length > 0 && <section className="baseline-section"><div className="section-heading"><div><span className="eyebrow">{pick(language, "EXECUTED ABLATIONS", "已执行消融实验")}</span><h2>{pick(language, "Controls removed on relevant case slices", "在相关测试切片中移除控制模块")}</h2></div><span>{pick(language, "Not model benchmarks", "不是模型基准测试")}</span></div><div className="baseline-grid">{data.baselines.map((baseline: any) => <article key={baseline.name}><span>{pretty(baseline.name, language)}</span><strong>{baseline.passed}/{baseline.cases}</strong><p>{localizeText(baseline.definition, language)}</p><small>{localizeText(baseline.scope, language)}</small></article>)}</div></section>}
     <div className="metric-list">{data.metrics.map((metric: any) => <article key={metric.name}><div><span>{pretty(metric.name, language)}</span><strong>{pct(metric.value)}</strong></div><i><em style={{ width: pct(metric.value) }} /></i><p>{localizeText(metric.definition, language)}</p><small>{metric.numerator}/{metric.denominator}</small></article>)}</div>
     <article className="trend-note"><span className="eyebrow">{pick(language, "REGRESSION TREND", "回归趋势")}</span><strong>{pick(language, "One committed run", "当前仅有一次已提交运行")}</strong><p>{pick(language, "A trend is intentionally not inferred from a single snapshot. Preserve subsequent generated artifacts to compare changes over time.", "单次快照不能推断趋势；后续应保留生成结果，以比较系统随时间的变化。")}</p></article>
+  </section>;
+}
+
+function QualityView({ cases, taxonomy, language }: { cases: BadCase[]; taxonomy: any[]; language: Language }) {
+  const [scenario, setScenario] = useState("all");
+  const [errorType, setErrorType] = useState("all");
+  const [severity, setSeverity] = useState("all");
+  const [model, setModel] = useState("all");
+  const [source, setSource] = useState("all");
+  const [selectedCase, setSelectedCase] = useState<BadCase | null>(null);
+  const filtered = cases.filter(item =>
+    (scenario === "all" || item.scenario === scenario) &&
+    (errorType === "all" || item.error_type === errorType) &&
+    (severity === "all" || item.severity === severity) &&
+    (model === "all" || item.model_version === model) &&
+    (source === "all" || item.source_version === source)
+  );
+  const values = (key: keyof BadCase) => [...new Set(cases.map(item => String(item[key])))];
+  function exportCases() {
+    const payload = JSON.stringify({ exported_at: new Date().toISOString(), anonymised: true, filters: { scenario, errorType, severity, model, source }, cases: filtered }, null, 2);
+    const url = URL.createObjectURL(new Blob([payload], { type: "application/json" }));
+    const anchor = document.createElement("a"); anchor.href = url; anchor.download = "wealthguard-quality-cases.json"; anchor.click(); URL.revokeObjectURL(url);
+  }
+  return <section className="page-content quality-page">
+    <div className="page-intro"><span className="eyebrow">{pick(language, "POST-ANSWER QUALITY LOOP", "回答后的质量闭环")}</span><h2>{pick(language, "Turn a bad answer into a traceable product fix.", "把一个坏答案变成可追踪的产品修复。")}</h2><p>{pick(language, "This console is the main complement to Tencent Portfolio and StockBuddy: it does not generate another market view; it helps product, algorithm and evaluation teams find why an answer failed and whether the fix regressed.", "这是对腾讯自选股与 StockBuddy 的核心补充：它不再生成一套行情观点，而是帮助产品、算法和评测团队定位答案为何失败、修复是否回归。")}</p></div>
+    <div className="quality-summary"><div><strong>{cases.length}</strong><span>{pick(language, "Synthetic bad cases", "合成坏案例")}</span></div><div><strong>{cases.filter(item => item.blocks_answer).length}</strong><span>{pick(language, "Release blockers", "阻止回答")}</span></div><div><strong>{cases.filter(item => item.regression_test_id).length}</strong><span>{pick(language, "Regression links", "已关联回归")}</span></div><div><strong>{taxonomy.length}</strong><span>{pick(language, "Error definitions", "错误定义")}</span></div></div>
+    <div className="quality-filters">
+      <label>{pick(language, "Scenario", "场景")}<select value={scenario} onChange={event => setScenario(event.target.value)}><option value="all">{pick(language, "All", "全部")}</option>{values("scenario").map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>{pick(language, "Error type", "错误类型")}<select value={errorType} onChange={event => setErrorType(event.target.value)}><option value="all">{pick(language, "All", "全部")}</option>{values("error_type").map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>{pick(language, "Severity", "严重度")}<select value={severity} onChange={event => setSeverity(event.target.value)}><option value="all">{pick(language, "All", "全部")}</option>{values("severity").map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>{pick(language, "Model", "模型版本")}<select value={model} onChange={event => setModel(event.target.value)}><option value="all">{pick(language, "All", "全部")}</option>{values("model_version").map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>{pick(language, "Source pack", "资料版本")}<select value={source} onChange={event => setSource(event.target.value)}><option value="all">{pick(language, "All", "全部")}</option>{values("source_version").map(value => <option key={value}>{value}</option>)}</select></label>
+      <button className="secondary" onClick={exportCases}>{pick(language, "Export anonymised JSON", "导出匿名 JSON")}</button>
+    </div>
+    <div className="quality-layout"><div className="case-list">{filtered.map(item => <button key={item.case_id} className={selectedCase?.case_id === item.case_id ? "selected" : ""} onClick={() => setSelectedCase(item)}><span><code>{item.case_id}</code><b className={`severity severity-${item.severity}`}>{item.severity}</b></span><strong>{item.error_type}</strong><p>{item.user_question}</p><small>{pretty(item.scenario, language)} · {pretty(item.fix_status, language)} · {item.owner_module}</small></button>)}</div>
+      <article className="case-detail">{selectedCase ? <><div className="case-detail-head"><div><span className="eyebrow">{selectedCase.case_id}</span><h3>{selectedCase.error_type}</h3></div><StatusPill value={selectedCase.fix_status} language={language} /></div><dl><dt>{pick(language, "User question", "用户问题")}</dt><dd>{selectedCase.user_question}</dd>{selectedCase.clarification && <><dt>{pick(language, "Clarification", "澄清过程")}</dt><dd>{selectedCase.clarification}</dd></>}<dt>{pick(language, "Expected", "预期结果")}</dt><dd>{selectedCase.expected_result}</dd><dt>{pick(language, "Actual", "实际结果")}</dt><dd>{selectedCase.actual_result}</dd><dt>{pick(language, "Evidence / citations", "检索与引用")}</dt><dd>{[...selectedCase.retrieved_evidence, ...selectedCase.citations].join(" · ") || "—"}</dd><dt>{pick(language, "Tool calls", "工具调用")}</dt><dd>{selectedCase.tool_calls.join(" · ") || "—"}</dd><dt>{pick(language, "Owner / regression", "责任模块 / 回归")}</dt><dd>{selectedCase.owner_module} · {selectedCase.regression_test_id || pick(language, "not linked", "尚未关联")}</dd></dl><footer><span>{selectedCase.model_version}</span><span>{selectedCase.source_version}</span><b>{selectedCase.blocks_answer ? pick(language, "BLOCK ANSWER", "阻止回答") : pick(language, "ALLOW SAFE FALLBACK", "允许安全降级")}</b></footer></> : <><div className="empty-state"><div>QA</div><h3>{pick(language, "Select a bad case", "选择一个坏案例")}</h3><p>{pick(language, "Inspect question, clarification, retrieval, citations, tools, expected result, actual result and regression ownership.", "查看问题、澄清、检索、引用、工具、预期与实际结果，以及回归责任。")}</p></div></>}</article></div>
+    <p className="quality-disclaimer">{pick(language, "All records on this page are labelled synthetic evaluation cases. No API keys, personal financial data or real brokerage accounts are stored.", "本页全部记录均明确标记为合成评测案例，不保存 API Key、个人金融数据或真实券商账户。")}</p>
   </section>;
 }
 

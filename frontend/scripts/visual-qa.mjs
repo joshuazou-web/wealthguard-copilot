@@ -21,8 +21,8 @@ try {
     throw new Error(`Mobile layout failed: ${JSON.stringify(geometry)}`);
   }
   await mobile.getByRole("button", { name: "Switch to Chinese" }).click();
-  await mobile.getByRole("heading", { name: "证据保护", exact: true }).waitFor();
-  if (await mobile.locator("textarea").inputValue() !== "SPY 适合我吗？") throw new Error("Preset query did not switch to Chinese");
+  await mobile.getByRole("heading", { name: "研究增强", exact: true }).waitFor();
+  if (await mobile.locator("textarea").inputValue() !== "AAPL 2025 财年收入为什么变化？") throw new Error("Preset query did not switch to Chinese");
   const savedLanguage = await mobile.evaluate(() => localStorage.getItem("wg-language-v1"));
   if (savedLanguage !== '"zh"') throw new Error(`Language preference was not persisted: ${savedLanguage}`);
   await mobile.getByRole("button", { name: "切换到英文" }).click();
@@ -51,8 +51,13 @@ try {
   const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   await desktop.goto(baseUrl, { waitUntil: "networkidle" });
   await desktop.screenshot({ path: path.join(output, "desktop-dogfood-home.png"), fullPage: true });
+  await desktop.getByRole("button", { name: "Quality operations" }).click();
+  await desktop.getByRole("heading", { name: "Turn a bad answer into a traceable product fix." }).waitFor();
+  await desktop.locator(".case-list button").first().click();
+  await desktop.screenshot({ path: path.join(output, "quality-operations.png"), fullPage: true });
+  await desktop.getByRole("button", { name: "Research guard" }).click();
   await desktop.getByRole("button", { name: "Switch to Chinese" }).click();
-  await desktop.getByRole("heading", { name: "证据保护", exact: true }).waitFor();
+  await desktop.getByRole("heading", { name: "研究增强", exact: true }).waitFor();
   await desktop.screenshot({ path: path.join(output, "desktop-dogfood-home-zh.png"), fullPage: true });
   console.log(JSON.stringify({ status: "passed", mobile: geometry, chineseMobile: chineseGeometry, bilingualDesktop: true, persistedSessions: persisted.sessions.length, evidenceOpenRecorded: true, feedbackRecorded: true }));
 } finally {

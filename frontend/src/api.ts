@@ -1,4 +1,4 @@
-import type { Instrument, ResearchResponse, UserProfile } from "./types";
+import type { BadCase, Instrument, ResearchResponse, UserProfile } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
@@ -28,5 +28,7 @@ export const api = {
       body: JSON.stringify({ holdings, scenario_shock: scenarioShock })
     }),
   audit: (sessionId: string) => request<any[]>(`/api/audit?session_id=${encodeURIComponent(sessionId)}`),
-  evaluation: () => request<any>("/api/evaluation")
+  evaluation: () => request<any>("/api/evaluation"),
+  qualityCases: () => request<BadCase[]>("/api/quality/cases"),
+  qualityTaxonomy: () => request<any[]>("/api/quality/taxonomy")
 };

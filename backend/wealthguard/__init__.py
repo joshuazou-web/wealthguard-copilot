@@ -1,3 +1,3 @@
-"""WealthGuard Copilot backend."""
+"""WealthGuard Proofline backend."""
 
 __version__ = "0.1.0"

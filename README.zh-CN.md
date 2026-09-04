@@ -1,10 +1,28 @@
-# WealthGuard Copilot
+# WealthGuard 证据防线
+
+**答案可信之前，先核验证据；答案出错之后，把失败变成改进。**
+
+证券 AI 证据与质量系统 · 英文名：**WealthGuard Proofline**
 
 [English](README.md) · [**简体中文**](README.zh-CN.md)
 
 **在一个金融回答变成投资建议之前，WealthGuard 先把它变成一条可以核查的研究轨迹。**
 
 > 仅用于教育与研究，不构成投资建议。
+
+## 面向腾讯自选股的重新定位
+
+这个产品源于我们持续使用包括腾讯微证券在内的多款证券助手后发现的一个共同问题：
+腾讯自选股本身并不缺“行情、资讯、交易、AI 问答”。截至当前版本，它还已加入混元 / DeepSeek
+金融搜索、个股小报、ETF AI 解析，并有媒体报道正在内测 StockBuddy。真正稀缺的不是再生成一遍
+答案，而是现有链路最难独立自证的部分——**答案生成前的证据与版本校验、答案生成后的坏案例治理
+和审计**。
+
+因此，WealthGuard 不替代腾讯自选股微信版/微证券的行情、资讯、社区、自选提醒、AI 问答或合作
+券商交易。它被定位为这些既有能力的**证据与质量增强层**：在答案形成时核验证券代码、文件版本、
+页码引用和确定性计算；在答案失败后把坏案例转成可归因、可修复、可回归的质量运营记录。详见
+[腾讯自选股补充型产品研究](docs/TENCENT_PORTFOLIO_COMPLEMENT_RESEARCH.md)与
+[专项 PRD](docs/PRD_TENCENT_ENHANCEMENT.md)。当前仅为独立原型，未与腾讯或券商系统连接。
 
 一个人提出了一个看似简单的问题：
 
@@ -105,6 +123,9 @@ WealthGuard 是一个本地运行的 React/FastAPI 研究原型，不是券商�
 - **Evidence library**：保存 13 份官方原始文件的版本、位置和 checksum。
 - **Review & audit**：回放从问题到回答的完整决策过程。
 - **Evaluation**：展示固定测试集、基线、指标和失败案例。
+- **质量运营**：将 16 类错误、五类筛选、预期与实际结果、责任模块、回归编号和匿名 JSON 导出放进可运行页面。
+
+![质量运营后台：合成引用错误、责任模块与回归编号](docs/media/quality-operations.png)
 
 **英文移动端**
 
@@ -183,8 +204,8 @@ pnpm --dir frontend dev --host 127.0.0.1
 也可以使用单容器运行：
 
 ```powershell
-docker build -t wealthguard-copilot .
-docker run --rm -p 8000:8000 wealthguard-copilot
+docker build -t wealthguard-proofline .
+docker run --rm -p 8000:8000 wealthguard-proofline
 ```
 
 ## 验证结果

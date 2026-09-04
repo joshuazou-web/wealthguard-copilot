@@ -1,10 +1,32 @@
-# WealthGuard Copilot
+# WealthGuard Proofline
+
+**Evidence before trust. Quality after failure.**
+
+Securities AI Evidence & Quality System · 中文名：**WealthGuard 证据防线**
 
 [**English**](README.md) · [简体中文](README.zh-CN.md)
 
 **Before a financial answer becomes advice, WealthGuard turns it into a research trail you can inspect.**
 
 > For educational and research purposes only. Not investment advice.
+
+## Repositioned as a Tencent Portfolio complement
+
+This product was designed after sustained use of securities assistants—including Tencent Portfolio
+/ 微证券—revealed a recurring gap. Tencent Portfolio itself does not lack market data, news,
+trading, or AI Q&A. Its current product history includes Hunyuan/DeepSeek financial search,
+AI-generated stock briefs, AI ETF premium/discount explanations, and a reported StockBuddy beta.
+The harder problem is what those fluent experiences cannot easily prove on their own:
+**evidence and version validation before an answer is trusted, and bad-case governance and audit
+after an answer fails.**
+
+WealthGuard therefore does not replace Tencent Portfolio / 微证券 market data, news, community,
+watchlists, AI answers or broker execution. It is framed as their **evidence and quality layer**:
+checking security identity, source version, page-level citations and deterministic calculations
+before trust, then turning failed answers into attributable, regression-linked quality cases. See
+the [product research](docs/TENCENT_PORTFOLIO_COMPLEMENT_RESEARCH.md) and
+[focused PRD](docs/PRD_TENCENT_ENHANCEMENT.md). This remains an independent prototype with no
+Tencent or brokerage connection.
 
 A person asks a simple question:
 
@@ -115,6 +137,8 @@ See [the full demo script](docs/DEMO_SCRIPT.md) and
 - **Evidence library** — 13 cached official originals with versions, locations, and checksums.
 - **Review & audit** — an append-only request-to-response trace.
 - **Evaluation** — reproducible metrics and failures from the committed synthetic suite.
+- **Quality operations** — 16 error types, five filters, expected-versus-actual traces, ownership,
+  regression links, and anonymised JSON export for synthetic bad cases.
 - **Mobile/PWA experience** — home-screen installation, persistent English / 简体中文 switching,
   and a browser-local 14-day dogfood log that can be exported for review.
 
@@ -130,6 +154,8 @@ altered.
 </p>
 
 ![Comparison view showing dated assumptions and no best-product ranking](docs/media/compare-view.png)
+
+![Quality operations showing a synthetic citation failure and regression ownership](docs/media/quality-operations.png)
 
 ## Architecture
 
@@ -220,8 +246,8 @@ pnpm --dir frontend build
 Or build the included container:
 
 ```powershell
-docker build -t wealthguard-copilot .
-docker run --rm -p 8000:8000 wealthguard-copilot
+docker build -t wealthguard-proofline .
+docker run --rm -p 8000:8000 wealthguard-proofline
 ```
 
 Optional provider variables are documented in `.env.example`. The core policy, retrieval,

@@ -1,4 +1,28 @@
-export type View = "research" | "compare" | "portfolio" | "evidence" | "review" | "evaluation";
+export type View = "research" | "compare" | "portfolio" | "evidence" | "quality" | "review" | "evaluation";
+
+export interface BadCase {
+  case_id: string;
+  occurred_at: string;
+  scenario: string;
+  error_type: string;
+  severity: string;
+  model_version: string;
+  source_version: string;
+  user_question: string;
+  clarification?: string | null;
+  retrieved_evidence: string[];
+  citations: string[];
+  tool_calls: string[];
+  expected_result: string;
+  actual_result: string;
+  responsibility_layer: string;
+  fix_status: string;
+  owner_module: string;
+  regression_test_id?: string | null;
+  blocks_answer: boolean;
+  human_review: boolean;
+  data_status: string;
+}
 
 export interface UserProfile {
   research_goal?: string | null;

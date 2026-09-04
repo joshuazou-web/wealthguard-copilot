@@ -68,6 +68,13 @@ const VALUES: Record<string, string> = {
   portfolio_annualized_volatility: "组合年化波动率",
   portfolio_maximum_drawdown: "组合最大回撤",
   simple_scenario_loss: "简单情景损失"
+  ,financial_report: "财报解读"
+  ,announcement: "公告问答"
+  ,security_comparison: "证券比较"
+  ,fixed: "已修复"
+  ,triaged: "已分诊"
+  ,regression_added: "已加入回归"
+  ,blocked_release: "阻止发布"
 };
 
 export function displayValue(value: string, language: Language) {

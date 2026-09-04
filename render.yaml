@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: wealthguard-copilot
+    name: wealthguard-proofline
     runtime: docker
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health

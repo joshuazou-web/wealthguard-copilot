@@ -25,7 +25,7 @@ ALLOWED_HOSTS = {
     "www.szse.cn",
     "www.csrc.gov.cn",
 }
-USER_AGENT = "WealthGuardCopilot/0.1 research@example.com"
+USER_AGENT = "WealthGuardProofline/0.1 research@example.com"
 MAX_BYTES = 60 * 1024 * 1024
 
 

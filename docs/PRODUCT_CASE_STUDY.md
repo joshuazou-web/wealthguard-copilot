@@ -7,9 +7,18 @@ suitable?”, “Which one is better?”, or “Should I buy this stock?”—bu
 depends on missing context, task boundaries, dated evidence, and correct calculations. A fluent
 response can conceal each of those gaps.
 
-WealthGuard Copilot is a portfolio project exploring a product response to that problem. It is a
-local research prototype, not a live financial service, and all profiles, portfolios, evaluation
-sessions, and market-series calculations are synthetic.
+WealthGuard Proofline（中文名：WealthGuard 证据防线）was designed
+after sustained use of securities assistants—including Tencent Portfolio / 微证券—showed that the
+remaining gap is not another market-data, news, trading or AI-answer surface. It is the ability to
+validate evidence and versions before trusting an answer, and to govern and audit bad cases after
+an answer fails. It is a local portfolio prototype, not a live financial service or Tencent
+integration, and all profiles, portfolios, evaluation sessions, and market-series calculations are
+synthetic.
+
+The name carries the product story: **Evidence before trust. Quality after failure.** “Proofline”
+is the line an AI-generated securities answer must cross before it is trusted; when an answer
+fails, the same line preserves the evidence, error class, owner and regression path needed to
+improve it.
 
 ## Product thesis
 

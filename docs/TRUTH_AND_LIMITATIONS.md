@@ -45,9 +45,10 @@ Do not claim or imply:
 
 Recommended:
 
-> Built WealthGuard Copilot, a local React/FastAPI prototype for suitability-aware wealth and
-> securities research; implemented information-value clarification, deterministic policy and
-> financial-calculation tools, dated evidence/citation validation, and auditable response paths.
+> Built WealthGuard Proofline, a local React/FastAPI complement for securities
+> assistants; implemented pre-answer evidence/version validation and post-answer bad-case
+> governance, alongside information-value clarification, deterministic policy/calculation tools,
+> citation validation and auditable response paths.
 
 > Designed and ran a 126-case fixed-seed synthetic regression suite covering clarification,
 > advice/execution boundaries, profile-product conflicts, citations, numerical consistency,

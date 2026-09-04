@@ -12,12 +12,13 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 from .models import CompareRequest, PortfolioRequest, ResearchRequest, UserProfile
+from .quality import ERROR_DEFINITIONS, ErrorType, filter_bad_cases
 from .service import DISCLAIMER, WealthGuardService
 
 app = FastAPI(
-    title="WealthGuard Copilot",
+    title="WealthGuard Proofline",
     version="0.1.0",
-    description="Suitability-aware wealth and securities research prototype.",
+    description="Evidence validation and AI quality-operations complement for securities assistants.",
 )
 app.add_middleware(
     CORSMiddleware,
@@ -149,6 +150,29 @@ def evaluation() -> dict:
     if not path.exists():
         return {"status": "not_run", "message": "Run: python -m wealthguard.evaluation.runner"}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+@app.get("/api/quality/taxonomy")
+def quality_taxonomy() -> list[dict]:
+    return [item.model_dump(mode="json") for item in ERROR_DEFINITIONS]
+
+
+@app.get("/api/quality/cases")
+def quality_cases(
+    scenario: str | None = None,
+    error_type: ErrorType | None = None,
+    severity: str | None = None,
+    model_version: str | None = None,
+    source_version: str | None = None,
+) -> list[dict]:
+    cases = filter_bad_cases(
+        scenario=scenario,
+        error_type=error_type,
+        severity=severity,
+        model_version=model_version,
+        source_version=source_version,
+    )
+    return [item.model_dump(mode="json") for item in cases]
 
 
 FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"

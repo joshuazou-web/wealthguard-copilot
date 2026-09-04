@@ -2,10 +2,11 @@
 
 ## Product objective
 
-WealthGuard Copilot is a local-first research prototype for learning about and comparing
-wealth and securities products. It asks the highest-value clarification question before
-researching, grounds claims in dated evidence, delegates arithmetic to deterministic tools,
-and places suitability and policy checks outside the language model.
+WealthGuard Proofline（中文名：WealthGuard 证据防线）is a local-first
+evidence-validation and quality-operations complement for existing securities assistants. It asks
+the highest-value clarification question, grounds claims in dated evidence, delegates arithmetic
+to deterministic tools, and places policy, bad-case governance and audit outside the language
+model. It does not rebuild the host product's market data, news, community or trading journey.
 
 It is educational software, not investment advice, execution, suitability certification,
 or a regulated financial service.
